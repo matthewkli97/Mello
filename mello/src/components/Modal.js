@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import firebase from 'firebase/app';
-import { Button } from 'reactstrap';
+import { Button, Input } from 'reactstrap';
 
-class MeetingModal extends Component {
+export class MeetingModal extends Component {
   constructor(props) {
     super(props);
     this.state = {
