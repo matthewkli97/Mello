@@ -3,10 +3,15 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "bootstrap": "^4.0.0-beta.2",
     "firebase": "^4.7.0",
     "firebaseui": "^2.5.1",
+    "moment": "^2.19.3",
     "react": "^16.2.0",
+    "react-big-calendar": "^0.17.0",
     "react-dom": "^16.2.0",
+    "react-firebaseui": "^1.0.10",
+    "react-router-dom": "^4.2.2",
     "react-scripts": "1.0.17",
     "reactstrap": "^5.0.0-alpha.4"
   },
