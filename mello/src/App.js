@@ -3,6 +3,7 @@ import logo from './logo.svg';
 import './App.css';
 import { BrowserRouter, Route, Switch, Redirect, NavLink } from 'react-router-dom';
 import LoginPage from './pages/LoginPage';
+import UserDashboardPage from './pages/UserDashboardPage';
 
 import firebase from 'firebase/app';
 
@@ -37,6 +38,14 @@ class App extends Component {
   }  
 
   render() {
+
+    const styles = {
+      page : {
+        height: "100%",
+        width: "100%"
+      }
+    }
+
     let renderLoginPage = (routerProps) => {
       return <LoginPage {...routerProps} signoutHandle={() => this.handleSignOut()} newAccount={false} currentUser={this.state.user} />
     };
@@ -45,11 +54,16 @@ class App extends Component {
       return <LoginPage {...routerProps} signoutHandle={() => this.handleSignOut()} newAccount={true} currentUser={this.state.user} />
     };
 
+    let renderUserdashboardPage = (routerProps) => {
+      return <UserDashboardPage {...routerProps} signoutHandle={() => this.handleSignOut()} currentUser={this.state.user} />
+    };
+
     return (
       <BrowserRouter basename={process.env.PUBLIC_URL + '/'}>
         <Switch>
           <Route exact path='/login' component={renderLoginPage} />
           <Route exact path='/signup' component={renderSignupPage} />
+          <Route exact path='/welcome' component={renderUserdashboardPage} />
           <Redirect to="/welcome" />
         </Switch>
       </BrowserRouter>
