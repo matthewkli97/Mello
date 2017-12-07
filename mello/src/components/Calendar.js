@@ -31,15 +31,16 @@ export default class Calendar extends Component{
   render(){
     var today = new Date();
     return (
-        <div>
+        // <div >
         <BigCalendar
+        style={{"width":"200px", "height":"200px"}}
         {...this.props}
         events={this.state.events}
         views={allViews}
         step={60}
         defaultDate={new Date()}
       />
-      </div>
+    //   </div>
     )
   }
 }

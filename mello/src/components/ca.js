@@ -31,30 +31,30 @@ import React, { Component } from 'react';
         this.drawLegend();
       }
     
-      Calendar.prototype.drawHeader = function() {
-        var self = this;
-        if(!this.header) {
-          //Create the header elements
-          this.header = createElement('div', 'header');
-          this.header.className = 'header';
+      // Calendar.prototype.drawHeader = function() {
+      //   var self = this;
+      //   if(!this.header) {
+      //     //Create the header elements
+      //     this.header = createElement('div', 'header');
+      //     this.header.className = 'header';
     
-          this.title = createElement('h1');
+      //     this.title = createElement('h1');
     
-          var right = createElement('div', 'right');
-          right.addEventListener('click', function() { self.nextMonth(); });
+      //     var right = createElement('div', 'right');
+      //     right.addEventListener('click', function() { self.nextMonth(); });
     
-          var left = createElement('div', 'left');
-          left.addEventListener('click', function() { self.prevMonth(); });
+      //     var left = createElement('div', 'left');
+      //     left.addEventListener('click', function() { self.prevMonth(); });
     
-          //Append the Elements
-          this.header.appendChild(this.title); 
-          this.header.appendChild(right);
-          this.header.appendChild(left);
-          this.el.appendChild(this.header);
-        }
+      //     //Append the Elements
+      //     this.header.appendChild(this.title); 
+      //     this.header.appendChild(right);
+      //     this.header.appendChild(left);
+      //     this.el.appendChild(this.header);
+      //   }
     
-        this.title.innerHTML = this.current.format('MMMM YYYY');
-      }
+      //   this.title.innerHTML = this.current.format('MMMM YYYY');
+      // }
     
       Calendar.prototype.drawMonth = function() {
         var self = this;
