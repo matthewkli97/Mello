@@ -28,7 +28,7 @@ export default class NotesContainer extends Component {
     componentDidMount() {
         // this.ref 
         //     = firebase.database()
-        //         .ref("messages/" + this.props.match.params.convName)
+        //         .ref("messages/" + this.props.match.params.meetingId)
         //         .orderByChild("time");
 
         // this.ref.on("value", function(snapshot) {

@@ -65,7 +65,7 @@ class App extends Component {
           <Route exact path='/login' component={renderLoginPage} />
           <Route exact path='/signup' component={renderSignupPage} />
           <Route exact path='/welcome' component={renderUserdashboardPage} />
-          <Route exact path='/notes' component={RenderNotes} />
+          {/* <Route exact path='/notes' component={RenderNotes} /> */}
           <Redirect to="/welcome" />
         </Switch>
       </BrowserRouter>
