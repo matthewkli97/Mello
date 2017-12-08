@@ -151,7 +151,7 @@ export class TaskModal extends Component {
   }
 }
 // Contains all the tasks and its functions
-class Modal extends Component {
+export class Modal extends Component {
     render() {
       if (this.props.isOpen === false)
         return null
