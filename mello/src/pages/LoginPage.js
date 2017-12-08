@@ -13,7 +13,8 @@ export default class LoginPage extends Component {
                 marginRight: "auto",
                 width: "35%",
                 maxWidth: 300,
-                height: "auto"
+                height: "auto",
+                marginTop: 100
             },
             container : {
                 textAlign: "center"
@@ -44,8 +45,6 @@ export default class LoginPage extends Component {
                         !this.props.newAccount &&
                         <Link to="/signup">I don't have an account.</Link>
                     }
-
-                    <Button onClick={() => this.props.signoutHandle()}>Sign Me Out</Button>
                 </Container>
             );
         /*} else {

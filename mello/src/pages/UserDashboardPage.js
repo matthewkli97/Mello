@@ -144,8 +144,11 @@ export default class UserDashboardPage extends Component {
                 <Container style={styles.container}>
                     <Row>
                         <Col>
-                            <div className="pull-right">
-                                <ModalExample buttonLabel={"Create Meeting"} currentUser={this.props.currentUser} />
+                            <div className="pull-right" style={{ display: "inline-block" }}>
+                                <Row>
+                                    <ModalExample style={{ display: "inline" }} buttonLabel={"Create Meeting"} currentUser={this.props.currentUser} />
+                                    <Button style={{ display: "inline", marginLeft:10}} color="secondary" onClick={() => this.props.signoutHandle()}>Sign Out</Button>
+                                </Row>
                             </div>
                         </Col>
                     </Row>

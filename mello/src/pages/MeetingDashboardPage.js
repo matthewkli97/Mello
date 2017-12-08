@@ -3,7 +3,8 @@ import Notes from '../components/NotesContainer';
 import {
     Container,
     Row,
-    Col
+    Col,
+    Button
 } from 'reactstrap';
 
 import NoteChat from '../components/NoteChat'
