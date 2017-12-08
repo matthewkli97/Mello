@@ -8,14 +8,14 @@
    font-weight: 100;
    margin: 0;
    padding: 0;
-   background: #4A4A4A;
+   background: rgba(255, 255, 255, 1);
    -webkit-touch-callout: none;
    -webkit-user-select: none;
    -khtml-user-select: none;
    -moz-user-select: none;
    -ms-user-select: none;
    user-select: none;
-   color: rgba(255, 255, 255, 1);
+   /* color: rgba(255, 255, 255, 1); */
   }
   
   #calendar {
@@ -31,7 +31,7 @@
   .header {
     height: 50px;
     width: 420px;
-    background: rgba(66, 66, 66, 1);
+    background: #eeeeee;
     text-align: center;
     position:relative;
     z-index: 100;
@@ -69,11 +69,11 @@
   }
   
   .month {
-    /*overflow: hidden;*/
+    overflow: hidden;
     opacity: 0;
   }
   
-  .month.new {
+  /* .month.new {
     -webkit-animation: fadeIn 1s ease-out;
     opacity: 1;
   }
@@ -97,17 +97,17 @@
     -moz-animation: moveFromBottomFadeMonth .4s ease-out;
     animation: moveFromBottomFadeMonth .4s ease-out;
     opacity: 1;
-  }
-  
+  } */
+/*   
   .month.out.prev {
     -webkit-animation: moveToBottomFadeMonth .4s ease-in;
     -moz-animation: moveToBottomFadeMonth .4s ease-in;
     animation: moveToBottomFadeMonth .4s ease-in;
     opacity: 1;
   }
-  
+   */
   .week {
-   background: #4A4A4A;
+   background: white;
   }
   
   .day {
@@ -117,24 +117,24 @@
     text-align: center;
     vertical-align: top;
     cursor: pointer;
-    background: #4A4A4A;
+    background: white;
     position: relative;
     z-index: 100;
   }
   
   .day.other {
-   color: rgba(255, 255, 255, .3);
+   color: rgba(119, 119, 119, .8);
   }
   
   .day.today {
-    color: rgba(156, 202, 235, 1);
+    color: rgba(65,214,234, 1);
   }
   
   .day-name {
     font-size: 9px;
     text-transform: uppercase;
     margin-bottom: 5px;
-    color: rgba(255, 255, 255, .5);
+    color: rgba(119, 119, 119, 1);
     letter-spacing: .7px;
   }
   
@@ -178,7 +178,7 @@
     border-radius: 4px;
   }
   
-  .details.in {
+  /* .details.in {
     -webkit-animation: moveFromTopFade .5s ease both;
     -moz-animation: moveFromTopFade .5s ease both;
     animation: moveFromTopFade .5s ease both;
@@ -188,7 +188,7 @@
     -webkit-animation: moveToTopFade .5s ease both;
     -moz-animation: moveToTopFade .5s ease both;
     animation: moveToTopFade .5s ease both;
-  }
+  } */
   
   .arrow {
     position: absolute;
@@ -211,7 +211,7 @@
     overflow-x: hidden;
   }
   
-  .events.in {
+  /* .events.in {
     -webkit-animation: fadeIn .3s ease both;
     -moz-animation: fadeIn .3s ease both;
     animation: fadeIn .3s ease both;
@@ -234,7 +234,7 @@
     -moz-animation: fadeOut .3s ease both;
     animation: fadeOut .3s ease both;
   }
-  
+   */
   .event {
     font-size: 16px;
     line-height: 22px;

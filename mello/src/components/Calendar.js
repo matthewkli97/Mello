@@ -10,10 +10,22 @@ export class Calendar extends Component{
     constructor(props){
         super(props);
         this.state ={
-            events:this.props.events,
+            events:[],
             current: moment().clone()
         }        
     }
+
+    componentDidMount() {   
+        this.groupRef = firebase.database().ref("tasks");
+        this.groupRef.on('value', (snapshot) => {
+            console.log(snapshot.val());
+            this.setState({ events: snapshot.val() });
+        })
+        console.log(this.state.events);
+        // this.state.events.forEach(event){
+        //     set up the tasks at that day
+        // }
+    }   
 
     rightHandler(){
         // var update = this.state.title;
@@ -28,7 +40,7 @@ export class Calendar extends Component{
         return(
             <div id="calendar">
             <Headers current={this.state.current} rightHandler={()=>this.rightHandler()} leftHandler={()=>this.leftHandler()}/>
-            <Month  current={this.state.current}/>
+            <Month  current={this.state.current} events={this.state.event}/>
             </div>
         );
     }
@@ -116,9 +128,9 @@ class Month extends Component{
         let content = this.combine();
         
         return(
-            <div>
+            <div style={{backgroundColor:"white"}}>
                 {/* {/* {content} */}
-                <Weeks days={content} current = {this.props.current}/>
+                <Weeks days={content} current = {this.props.current} events={this.props.events)}/>
             </div>
         );
     }
@@ -161,7 +173,7 @@ class Week extends Component{
     render(){        
         let content = [];
         this.props.days.map((day)=>{
-            content.push(<Day key={day} day={moment(day)} current={this.props.current} handleClick={()=>{this.handleClick()}}/>)
+            content.push(<Day key={day} day={moment(day)} current={this.props.current} handleClick={()=>{this.handleClick()}} events={this.props.events)/>)
         })
         
         return(
@@ -181,9 +193,15 @@ class Day extends Component{
     constructor(props){
         super(props);
         this.state = {
-            local : false
+            local : false,
+            todayEvent :[]
         }
     }
+
+    // thisDaysEvent(){
+        // find out this day's event
+        // if true : 
+    // }
     
     click(){
         this.setState({local:!this.state.local});
@@ -208,6 +226,7 @@ class Day extends Component{
             <div className={""+className} onClick={()=>this.click(this.state.local)}>
                 <div className="day-name">{theDay.format('ddd')}</div>
                 <div className="day-number">{theDay.format('DD')}
+                {this.today.event && <span className="blue"></span>}
                 </div>
                 {this.state.local &&<div className="arrow"></div>}
             </div>
@@ -215,36 +234,28 @@ class Day extends Component{
         );
     }
 }
-
 class Event extends Component{
     constructor(props){
         super(props);
         this.state = {
             events : [],
+            today: []
         }
     }
-    componentDidMount() {   
-        this.groupRef = firebase.database().ref("tasks");
-        this.groupRef.on('value', (snapshot) => {
-            console.log(snapshot.val());
-            this.setState({ events: snapshot.val() });
-        })
-        console.log(this.state.events);
-
-        // this.state.events.forEach(event){
-        //     if()
-        // }
-    }   
+    
 
     render(){
-        let content;
+        let content=[];
         if(this.state.today){
-            content=( <div className="event">
-            {/* <div className={"event-category"+"blue"}></div> */}
-            <span>Helo
-            {/* {this.props.events.title} */}
-            </span>
-            </div>)
+            this.state.today.map(task){
+                content.push( <div className="event">
+                {/* <div className={"event-category"+"blue"}></div> */}
+                <span>
+                {this.state.today.taskName}
+                </span>
+                </div>)
+            }
+            
         }else{
             content=(
             // <div className="events in">
@@ -263,3 +274,11 @@ class Event extends Component{
         )
     }
 }
+
+// class Legend extend Component(){
+//     render(){
+//         return(
+//             <div className="legend"></div>
+//         );
+//     }
+// }
