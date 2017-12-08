@@ -180,6 +180,8 @@ class NoteItem extends Component {
                 width: "100%",
             }
         });
+        let moment = require('moment');
+        let time = moment(this.props.note.time + "", "x").fromNow();
 
         return (
             <ListGroupItem
@@ -205,7 +207,7 @@ class NoteItem extends Component {
                                 />
                             </Row>
                             <small>
-                                {this.props.note.user}, {this.props.note.time} {this.props.note.edited && "(Edited)"}
+                                {this.props.note.user}, {time}. {this.props.note.edited && "(Edited)"}
                             </small>
                         </CardBody>
                     </Card>
@@ -268,7 +270,7 @@ class NoteContent extends Component {
         this.setState({ messageContent: event.target.value });
     }
 
-    render() {
+    getHTMLCode() {
         let Remarkable = require('remarkable');
         let md = new Remarkable();
         let content = md.render(this.props.note.message);
@@ -282,9 +284,21 @@ class NoteContent extends Component {
                 content = content.replace(link, newLink);
             });
         }
+        return content;
+    }
+
+    render() {
+        const styles = StyleSheet.create({
+            textContent: {
+                height: "15vh"
+            }
+        });
+
+        let content = this.getHTMLCode();
 
         let display = this.props.edit ?
             <Input
+                className={css(styles.textContent)}
                 placeholder="Enter a message..."
                 type="textarea"
                 value={this.state.messageContent}
