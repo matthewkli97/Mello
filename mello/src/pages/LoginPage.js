@@ -3,8 +3,6 @@ import AuthProvider from '../components/AuthProvider';
 import { Redirect, Link} from 'react-router-dom';
 import firebase from 'firebase/app';
 import {Container, Button} from 'reactstrap';
-import {Calendar} from '../components/Calendar.js';
-
 
 export default class LoginPage extends Component {
 
@@ -26,9 +24,6 @@ export default class LoginPage extends Component {
         //if (this.props.currentUser === null) {
             return (
                 <Container style={styles.container}>
-                <div style={{height:"500px", width:"400px"}}>
-                        <Calendar></Calendar>
-                </div>
                     {this.props.newAccount && 
                     <div>
                         <h1>Hey! Join the conversation!</h1>
@@ -51,7 +46,6 @@ export default class LoginPage extends Component {
                         <Link to="/signup">I don't have an account.</Link>
                     }
                 </Container>
-                                    
             );
         /*} else {
             return (

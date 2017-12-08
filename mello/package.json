@@ -25,17 +25,6 @@
     "react-select": "^1.1.0",
     "react-spinners": "^0.2.5",
     "react-time": "^4.3.0",
-    "reactstrap": "^5.0.0-alpha.4"
-    "bootstrap": "^3.3.7",
-    "firebase": "^4.7.0",
-    "firebaseui": "^2.5.1",
-    "moment": "^2.19.3",
-    "react": "^16.2.0",
-    "react-big-calendar": "^0.17.0",
-    "react-dom": "^16.2.0",
-    "react-firebaseui": "^1.0.10",
-    "react-router-dom": "^4.2.2",
-    "react-scripts": "1.0.17",
     "reactstrap": "^5.0.0-alpha.4",
     "remarkable": "^1.7.1"
   },
