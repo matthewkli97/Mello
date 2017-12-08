@@ -138,6 +138,7 @@ class NoteItem extends Component {
         this.state = {
             edit: false,
             display: false,
+
         }
     }
 
@@ -155,19 +156,21 @@ class NoteItem extends Component {
 
     handleKeyPress = (event) => {
         if (event.charCode == 13) {
-            event.preventDefault();
-            event.stopPropagation();
-            this.props.dbRef.child(this.props.noteId)
-                .set({ 
-                    edited: true, 
-                    message: event.target.value,
-                    time: this.props.note.time,
-                    user: this.props.note.user 
-                })
-                .then(() => {
-                    this.setState({ edit: false });
-                })
-                .catch((error) => console.log(error.message));
+            if (!event.shiftKey) {
+                event.preventDefault();
+                event.stopPropagation();
+                this.props.dbRef.child(this.props.noteId)
+                    .set({ 
+                        edited: true, 
+                        message: event.target.value,
+                        time: this.props.note.time,
+                        user: this.props.note.user 
+                    })
+                    .then(() => {
+                        this.setState({ edit: false });
+                    })
+                    .catch((error) => console.log(error.message));
+            }
         }
     }
 
