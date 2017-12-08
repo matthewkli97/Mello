@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { StyleSheet, css } from 'aphrodite';
 import { Modal } from "./Modal";
+
 import {
     Container,
     CardBody,
@@ -27,11 +28,12 @@ export default class NotesContainer extends Component {
             selectedMessageId: undefined
         };
     }
-
+  
     handleKeyPress = (event) => {
         if (event.charCode == 13) {
             event.preventDefault();
             event.stopPropagation();
+
             this.props.dbRef.push({
                 // user: this.user.displayName
                 user: "Jenny Liang",
@@ -39,6 +41,7 @@ export default class NotesContainer extends Component {
                 time: firebase.database.ServerValue.TIMESTAMP,
                 edited: false
             }).catch((error) => console.log(error.message))
+
             this.setState({ message: "" });
         }
     }
@@ -46,7 +49,6 @@ export default class NotesContainer extends Component {
     updateSelectedMessage = (message) => {
         this.setState({ selectedMessageId: message });
     }
-
     toggle = (noteId) => {
         this.setState({
             isModalOpen: !this.state.isModalOpen,
@@ -138,7 +140,6 @@ class NoteItem extends Component {
         this.state = {
             edit: false,
             display: false,
-
         }
     }
 
@@ -185,7 +186,7 @@ class NoteItem extends Component {
         });
         let moment = require('moment');
         let time = moment(this.props.note.time + "", "x").fromNow();
-
+      
         return (
             <ListGroupItem
                 tag="a"
@@ -229,7 +230,6 @@ class Buttons extends Component {
     componentWillMount() {
         this.toggleFn = this.props.toggle;
     }
-
     render() {
         const styles = StyleSheet.create({
             hide: {
@@ -307,6 +307,7 @@ class NoteContent extends Component {
         let display = this.props.edit ?
             <Input
                 className={css(styles.textContent)}
+
                 placeholder="Enter a message..."
                 type="textarea"
                 value={this.state.messageContent}

@@ -1,65 +1,55 @@
 import React, { Component } from 'react';
 import { Collapse, Button, CardBody, Card, ListGroupItem, ListGroup, ListGroupItemHeading, Row, Col } from 'reactstrap';
+import Time from 'react-time';
 
+import firebase from 'firebase/app'
 
 export default class TaskList extends Component {
 
-    render() {
-
-        let tasks = {
-            asdf: {
-                taskName: "finisasdfasdfsad asdf  asdfas fds afsddfsdfssdfasd fasdsd  sddf sdf a sd sd",
-                member: 12389123,
-                progress: 0,
-                memberAsignedTo: 8912312389,
-                dueDate: 1512035796473,
-                requirements: {
-                    1: "hello",
-                    2: "asdf"
-                },
-                taskTrue: true,
-                priority: 1
-            },
-            a12e: {
-                taskName: "finishApp",
-                member: 12389123,
-                progress: 1,
-                memberAsignedTo: 8912312389,
-                dueDate: 1512035796473,
-                requirements: {
-                    1: "hello",
-                    2: "asdf"
-                },
-                taskTrue: true,
-                priority: 2
-            },
-            a34e4: {
-                taskName: "finishApp",
-                member: 12389123,
-                progress: 2,
-                memberAsignedTo: 8912312389,
-                dueDate: 1512035796473,
-                requirements: {
-                    1: "hello",
-                    2: "asdf"
-                },
-                taskTrue: true,
-                priority: 3
-            }
+    constructor(props) {
+        super(props);
+        this.state = {
+            tasks: {}
         }
+    }
 
-        let taskItems = Object.keys(tasks).map((task, index) => {
-            let tempTask = tasks[task];
-            tempTask.id = task;
+    render() {
+        if (this.props.tasks) {
+            let items = Object.keys(this.props.tasks);
 
-            return <TaskItem key={index} task={tempTask} />
-        });
+            const order = {
+                '0': 1,
+                '1': 0,
+                '2': 2
+            }
 
-        return (
-            <ListGroup>
-                {taskItems}
-            </ListGroup>
-        );
+            items.sort((a, b) => {
+                console.log(order[this.props.tasks[a].progress])
+                if (order[this.props.tasks[a].progress] < order[this.props.tasks[b].progress]) {
+                    return -1;
+                } else if (order[this.props.tasks[a].progress] > order[this.props.tasks[b].progress]) {
+                    return 1;
+                } else if (this.props.tasks[a].priority - this.props.tasks[b].priority !== 0) {
+                    return this.props.tasks[b].priority - this.props.tasks[a].priority;
+                } else {
+                    return this.props.tasks[a].date - this.props.tasks[b].date;
+                }
+            });
+
+            let taskItems = items.map((task) => {
+                return <TaskItem key={task} task={this.props.tasks[task]} />
+            });
+
+            return (
+                <ListGroup>
+                    {taskItems}
+                </ListGroup>
+            );
+        } else {
+            return (<div>
+                No Tasks
+            </div>)
+        }
     }
 }
 
@@ -72,6 +62,16 @@ class TaskItem extends Component {
         };
     }
 
+    componentDidMount() {
+        this.taskRef = firebase.database().ref("tasks").child(this.props.task.assignedTo).child(this.props.task.userTaskId);
+        this.meetingTaskRef = firebase.database().ref("meetings").child(this.props.task.meetingId).child("tasks").child(this.props.task.meetingTaskId);
+    }
+
+    componentWillUnmount() {
+        this.taskRef.off();
+        this.meetingTaskRef.off();
+    }
+
     toggle() {
         this.setState({ collapse: !this.state.collapse });
     }
@@ -80,9 +80,18 @@ class TaskItem extends Component {
         this.setState({ taskStatus: this.state.taskStatus + 1 });
     }
 
+    changeProgress() {
+        let tempTask = this.props.task;
+        tempTask.progress = (tempTask.progress + 1) % 3;
+
+        this.taskRef.set(tempTask);
+        this.meetingTaskRef.set(tempTask);
+    }
+
     render() {
         const progressColor = ["primary", "warning", "success"];
         const progressText = ["TODO", "In Progress", "Completed"];
+        const iconPriority = ["fa-arrow-down", "fa-minus", "fa-arrow-up"];
 
         const styles = {
             button: {
@@ -96,16 +105,13 @@ class TaskItem extends Component {
             },
             icon: {
                 marginLeft: 10,
-                marginRight: 10
-            },
-            low: {
-                color: "blue",
-            },
-            medium: {
-                color: "yellow",
-            },
-            high: {
-                color: "red"
+                marginRight: 10,
+                colors: {
+                    '0': { color: "blue" },
+                    '1': { color: "yellow" },
+                    '2': { color: "red" }
+                }
+
             },
             wrap: {
                 wordWrap: "break-word"
@@ -116,23 +122,14 @@ class TaskItem extends Component {
             return <li key={index}>{this.props.task.requirements[key]}</li>
         })
 
-        let priorityValue = () => {
-            if (this.props.task.priority === 1)
-                return <i className="fa fa-arrow-down" style={{ ...styles.icon, ...styles.low }} aria-hidden="true"></i>
-            else if (this.props.task.priority === 2)
-                return <i className="fa fa-minus" style={{ ...styles.icon, ...styles.medium }} aria-hidden="true"></i>
-            else
-                return <i className="fa fa-arrow-up" style={{ ...styles.icon, ...styles.high }} aria-hidden="true"></i>
-        }
-
         return (
             <ListGroupItem tag="a" action>
                 <Row>
                     <Col>
-                        <Button color={progressColor[this.props.task.progress]} onClick={() => this.toggleTask()}
+                        <Button color={progressColor[this.props.task.progress]} onClick={() => this.changeProgress()}
                             size="sm"><span style={styles.scale}>{progressText[this.props.task.progress]}</span></Button>
                     </Col>
-                    <Col style={{ textAlign: "right" }}>asdfas</Col>
+                    <Col style={{ textAlign: "right" }}><Time value={this.props.task.dueDate} format="MM/DD/YYYY" /></Col>
                 </Row>
                 <Row style={{ marginTop: 10 }} onClick={() => this.toggle()}>
                     <Col xs={10} md={11}>
@@ -140,7 +137,7 @@ class TaskItem extends Component {
                     </Col>
                     <Col xs={2} md={1}>
                         <span style={{ float: "right" }}>
-                            {priorityValue()}
+                            <i className={"fa " + iconPriority[this.props.task.priority]} style={{ ...styles.icon, ...styles.icon.colors[this.props.task.priority] }} aria-hidden="true"></i>
                         </span>
                     </Col>
                 </Row>
