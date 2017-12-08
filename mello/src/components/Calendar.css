@@ -6,7 +6,6 @@
    overflow: hidden;
    font-family: 'HelveticaNeue-UltraLight', 'Helvetica Neue UltraLight', 'Helvetica Neue', Arial, Helvetica, sans-serif;
    font-weight: 100;
-   color: rgba(255, 255, 255, 1);
    margin: 0;
    padding: 0;
    background: #4A4A4A;
@@ -16,6 +15,7 @@
    -moz-user-select: none;
    -ms-user-select: none;
    user-select: none;
+   color: rgba(255, 255, 255, 1);
   }
   
   #calendar {
@@ -192,7 +192,8 @@
   
   .arrow {
     position: absolute;
-    top: -5px;
+    /* transform: rotate(180deg); */
+    top: 100%;
     left: 50%;
     margin-left: -2px;
     width: 0px;
@@ -259,7 +260,7 @@
     padding: 0 0 0 7px;
   }
   
-  .legend {
+  /* .legend {
     position: absolute;
     bottom: 0;
     width: 100%;
@@ -267,18 +268,18 @@
     background: rgba(60, 60, 60, 1);
     line-height: 30px;
   
-  }
+  } */
   
-  .entry {
+  /* .entry {
     position: relative;
     padding: 0 0 0 25px;
     font-size: 13px;
     display: inline-block;
     line-height: 30px;
     background: transparent;
-  }
+  } */
   
-  .entry:after {
+  /* .entry:after {
     position: absolute;
     content: '';
     height: 5px;
@@ -286,100 +287,9 @@
     top: 12px;
     left: 14px;
   }
-  
-  .entry.blue:after { background: rgba(156, 202, 235, 1); }
+   */
+  /* .entry.blue:after { background: rgba(156, 202, 235, 1); }
   .entry.orange:after { background: rgba(247, 167, 0, 1); }
   .entry.green:after { background: rgba(153, 198, 109, 1); }
   .entry.yellow:after { background: rgba(249, 233, 0, 1); }
-  
-  /* Animations are cool!  */
-  @-webkit-keyframes moveFromTopFade {
-    from { opacity: .3; height:0px; margin-top:0px; -webkit-transform: translateY(-100%); }
-  }
-  @-moz-keyframes moveFromTopFade {
-    from { height:0px; margin-top:0px; -moz-transform: translateY(-100%); }
-  }
-  @keyframes moveFromTopFade {
-    from { height:0px; margin-top:0px; transform: translateY(-100%); }
-  }
-  
-  @-webkit-keyframes moveToTopFade {
-    to { opacity: .3; height:0px; margin-top:0px; opacity: 0.3; -webkit-transform: translateY(-100%); }
-  }
-  @-moz-keyframes moveToTopFade {
-    to { height:0px; -moz-transform: translateY(-100%); }
-  }
-  @keyframes moveToTopFade {
-    to { height:0px; transform: translateY(-100%); }
-  }
-  
-  @-webkit-keyframes moveToTopFadeMonth {
-    to { opacity: 0; -webkit-transform: translateY(-30%) scale(.95); }
-  }
-  @-moz-keyframes moveToTopFadeMonth {
-    to { opacity: 0; -moz-transform: translateY(-30%); }
-  }
-  @keyframes moveToTopFadeMonth {
-    to { opacity: 0; -moz-transform: translateY(-30%); }
-  }
-  
-  @-webkit-keyframes moveFromTopFadeMonth {
-    from { opacity: 0; -webkit-transform: translateY(30%) scale(.95); }
-  }
-  @-moz-keyframes moveFromTopFadeMonth {
-    from { opacity: 0; -moz-transform: translateY(30%); }
-  }
-  @keyframes moveFromTopFadeMonth {
-    from { opacity: 0; -moz-transform: translateY(30%); }
-  }
-  
-  @-webkit-keyframes moveToBottomFadeMonth {
-    to { opacity: 0; -webkit-transform: translateY(30%) scale(.95); }
-  }
-  @-moz-keyframes moveToBottomFadeMonth {
-    to { opacity: 0; -webkit-transform: translateY(30%); }
-  }
-  @keyframes moveToBottomFadeMonth {
-    to { opacity: 0; -webkit-transform: translateY(30%); }
-  }
-  
-  @-webkit-keyframes moveFromBottomFadeMonth {
-    from { opacity: 0; -webkit-transform: translateY(-30%) scale(.95); }
-  }
-  @-moz-keyframes moveFromBottomFadeMonth {
-    from { opacity: 0; -webkit-transform: translateY(-30%); }
-  }
-  @keyframes moveFromBottomFadeMonth {
-    from { opacity: 0; -webkit-transform: translateY(-30%); }
-  }
-  
-  @-webkit-keyframes fadeIn  {
-    from { opacity: 0; }
-  }
-  @-moz-keyframes fadeIn  {
-    from { opacity: 0; }
-  }
-  @keyframes fadeIn  {
-    from { opacity: 0; }
-  }
-  
-  @-webkit-keyframes fadeOut  {
-    to { opacity: 0; }
-  }
-  @-moz-keyframes fadeOut  {
-    to { opacity: 0; }
-  }
-  @keyframes fadeOut  {
-    to { opacity: 0; }
-  }
-  
-  @-webkit-keyframes fadeOutShink  {
-    to { opacity: 0; padding: 0px; height: 0px; }
-  }
-  @-moz-keyframes fadeOutShink  {
-    to { opacity: 0; padding: 0px; height: 0px; }
-  }
-  @keyframes fadeOutShink  {
-    to { opacity: 0; padding: 0px; height: 0px; }
-  }
-  
+   */
