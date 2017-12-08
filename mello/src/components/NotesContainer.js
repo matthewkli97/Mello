@@ -46,9 +46,7 @@ export default class NotesContainer extends Component {
         this.setState({ selectedMessageId: message });
     }
 
-    // toggle = () => {
     toggle = (noteId) => {
-        // this.setState({ isModalOpen: !this.state.isModalOpen });
         this.setState({
             isModalOpen: !this.state.isModalOpen,
             selectedMessageId: noteId
@@ -60,8 +58,7 @@ export default class NotesContainer extends Component {
     }
 
     delete = () => {
-        // this.setState({ isModalOpen: !this.state.isModalOpen });
-        this.ref.child(this.state.selectedMessageId).remove()
+        this.props.dbRef.child(this.state.selectedMessageId).remove()
             .then(() => this.setState({ isModalOpen: !this.state.isModalOpen }));
     }
 
@@ -203,7 +200,6 @@ class NoteItem extends Component {
                                     noteId={this.props.noteId}
                                 />
                             </Row>
-                            {/* <small> Jenny Liang, 9:00 AM </small> */}
                             <small>
                                 {this.props.note.user} {this.props.note.time} {this.props.note.edited && "(Edited)"}
                             </small>
@@ -216,6 +212,15 @@ class NoteItem extends Component {
 }
 
 class Buttons extends Component {
+    constructor(props) {
+        super(props);
+        this.toggleFn = null;
+    }
+
+    componentWillMount() {
+        this.toggleFn = this.props.toggle;
+    }
+
     render() {
         const styles = StyleSheet.create({
             hide: {
@@ -237,8 +242,7 @@ class Buttons extends Component {
                     Edit
                 </Button>
                 <Button
-                    // onClick={this.props.toggle(this.props.noteId)}
-                    // onClick={this.props.toggle}
+                    onClick={() => this.toggleFn(this.props.noteId)}
                     className={css(styles.hover)}
                 >
                     Delete
