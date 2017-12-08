@@ -4,6 +4,7 @@ import './App.css';
 import { BrowserRouter, Route, Switch, Redirect, NavLink } from 'react-router-dom';
 import LoginPage from './pages/LoginPage';
 import UserDashboardPage from './pages/UserDashboardPage';
+import RenderNotes from './components/NotesContainer';
 
 import firebase from 'firebase/app';
 
@@ -64,6 +65,7 @@ class App extends Component {
           <Route exact path='/login' component={renderLoginPage} />
           <Route exact path='/signup' component={renderSignupPage} />
           <Route exact path='/welcome' component={renderUserdashboardPage} />
+          <Route exact path='/notes' component={RenderNotes} />
           <Redirect to="/welcome" />
         </Switch>
       </BrowserRouter>
