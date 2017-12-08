@@ -84,7 +84,13 @@ export default class NotesContainer extends Component {
         const styles = StyleSheet.create({
             textarea: {
                 height: "15vh",
-                display: "fixed"
+                display: "fixed",
+                position: "relative",
+                width: "100%"
+            },
+            container: {
+                position: "relative",
+                width: "100%"
             },
             listGroup: {
                 height: "70vh",
@@ -102,7 +108,7 @@ export default class NotesContainer extends Component {
                 <ListGroup className={css(styles.listGroup)}>
                     {taskItems}
                 </ListGroup>
-                <Container>
+                <Container className={css(styles.textarea)}>
                     <Input
                         placeholder="Enter a message..."
                         type="textarea"
