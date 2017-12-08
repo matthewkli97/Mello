@@ -1,10 +1,7 @@
 import React, { Component } from 'react';
 import AuthProvider from '../components/AuthProvider';
-import { Redirect, Link} from 'react-router-dom';
-import firebase from 'firebase/app';
-import {Container, Button} from 'reactstrap';
-import {Calendar} from '../components/Calendar.js';
-
+import { Link} from 'react-router-dom';
+import {Container} from 'reactstrap';
 
 export default class LoginPage extends Component {
 
@@ -15,7 +12,8 @@ export default class LoginPage extends Component {
                 marginRight: "auto",
                 width: "35%",
                 maxWidth: 300,
-                height: "auto"
+                height: "auto",
+                marginTop: 100
             },
             container : {
                 textAlign: "center"
@@ -25,9 +23,6 @@ export default class LoginPage extends Component {
         //if (this.props.currentUser === null) {
             return (
                 <Container style={styles.container}>
-                <div style={{height:"500px", width:"400px"}}>
-                        <Calendar></Calendar>
-                </div>
                     {this.props.newAccount && 
                     <div>
                         <h1>Hey! Join the conversation!</h1>
@@ -49,10 +44,7 @@ export default class LoginPage extends Component {
                         !this.props.newAccount &&
                         <Link to="/signup">I don't have an account.</Link>
                     }
-
-                    <Button onClick={() => this.props.signoutHandle()}>Sign Me Out</Button>
                 </Container>
-                                    
             );
         /*} else {
             return (
