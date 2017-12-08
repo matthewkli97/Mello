@@ -178,6 +178,9 @@ class NoteItem extends Component {
         const styles = StyleSheet.create({
             container: {
                 width: "100%",
+            }, 
+            smallText: {
+                fontWeight: "300"
             }
         });
         let moment = require('moment');
@@ -206,7 +209,7 @@ class NoteItem extends Component {
                                     noteId={this.props.noteId}
                                 />
                             </Row>
-                            <small>
+                            <small className={css(styles.smallText)}>
                                 {this.props.note.user}, {time}. {this.props.note.edited && "(Edited)"}
                             </small>
                         </CardBody>
@@ -291,6 +294,11 @@ class NoteContent extends Component {
         const styles = StyleSheet.create({
             textContent: {
                 height: "15vh"
+            }, 
+            chatText: {
+                fontWeight: "300",
+                fontSize: "1.25em",
+                paddingBottom: "1em"
             }
         });
 
@@ -306,7 +314,7 @@ class NoteContent extends Component {
                 onChange={this.handleChange}
             /> :
             <div>
-                <Col sm={9} dangerouslySetInnerHTML={{__html: content}}></Col>
+                <Col sm={9} className={css(styles.chatText)} dangerouslySetInnerHTML={{__html: content}}></Col>
                 <Col sm={3}>
                     <Buttons
                         display={this.props.display}
