@@ -67,12 +67,14 @@ export class TaskModal extends Component {
     }
     this.toggle = this.toggle.bind(this);
   }
+
   toggle() {
     if (this.state.isModalOpen) {
       this.addRequirement()
     }
     this.setState({isModalOpen: !this.state.isModalOpen});
   }
+  
   create() {
     let newTask = {
       taskName: this.state.taskName,
@@ -88,6 +90,7 @@ export class TaskModal extends Component {
     firebase.database().ref('members/'+this.state.userKey+'/tasks').push(newTask);
     this.toggle();
   }
+
   onChange(e) {
     let newState = {};
     newState[e.target.name] = e.target.value;
