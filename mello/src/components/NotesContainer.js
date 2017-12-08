@@ -33,6 +33,7 @@ export default class NotesContainer extends Component {
             event.preventDefault();
             event.stopPropagation();
             this.props.dbRef.push({
+                // user: this.user.displayName
                 user: "Jenny Liang",
                 message: this.state.message,
                 time: firebase.database.ServerValue.TIMESTAMP,
@@ -201,7 +202,7 @@ class NoteItem extends Component {
                                 />
                             </Row>
                             <small>
-                                {this.props.note.user} {this.props.note.time} {this.props.note.edited && "(Edited)"}
+                                {this.props.note.user}, {this.props.note.time} {this.props.note.edited && "(Edited)"}
                             </small>
                         </CardBody>
                     </Card>
@@ -265,6 +266,20 @@ class NoteContent extends Component {
     }
 
     render() {
+        let Remarkable = require('remarkable');
+        let md = new Remarkable();
+        let content = md.render(this.props.note.message);
+
+        let regex = /https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,4}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/g;
+        let links = content.match(regex);
+
+        if (links != null) {
+            links.forEach(link => {
+                let newLink = "<a href='"+ link + "' target='_blank'>"+ link +"</a>";
+                content = content.replace(link, newLink);
+            });
+        }
+
         let display = this.props.edit ?
             <Input
                 placeholder="Enter a message..."
@@ -274,9 +289,7 @@ class NoteContent extends Component {
                 onChange={this.handleChange}
             /> :
             <div>
-                <Col sm={9}>
-                    {this.props.note.message}
-                </Col>
+                <Col sm={9} dangerouslySetInnerHTML={{__html: content}}></Col>
                 <Col sm={3}>
                     <Buttons
                         display={this.props.display}
