@@ -1,58 +1,54 @@
 import React, { Component } from 'react';
 import { Collapse, Button, CardBody, Card, ListGroupItem, ListGroup, ListGroupItemHeading, Row, Col } from 'reactstrap';
 
+import firebase from 'firebase/app'
 
 export default class TaskList extends Component {
 
+    constructor(props) {
+        super(props);
+        this.state = {
+            tasks: {}
+        }
+    }
+
+    componentDidMount() {
+        let ref = firebase.database().ref("tasks").child(this.props.currentUser.uid);
+
+        ref.on("value", (snapshot) => {
+            this.setState({ tasks: snapshot.val() });
+        });
+    }
+
     render() {
 
-        let tasks = {
-            asdf: {
-                taskName: "finisasdfasdfsad asdf  asdfas fds afsddfsdfssdfasd fasdsd  sddf sdf a sd sd",
-                member: 12389123,
-                progress: 0,
-                memberAsignedTo: 8912312389,
-                dueDate: 1512035796473,
-                requirements: {
-                    1: "hello",
-                    2: "asdf"
-                },
-                taskTrue: true,
-                priority: 1
-            },
-            a12e: {
-                taskName: "finishApp",
-                member: 12389123,
-                progress: 1,
-                memberAsignedTo: 8912312389,
-                dueDate: 1512035796473,
-                requirements: {
-                    1: "hello",
-                    2: "asdf"
-                },
-                taskTrue: true,
-                priority: 2
-            },
-            a34e4: {
-                taskName: "finishApp",
-                member: 12389123,
-                progress: 2,
-                memberAsignedTo: 8912312389,
-                dueDate: 1512035796473,
-                requirements: {
-                    1: "hello",
-                    2: "asdf"
-                },
-                taskTrue: true,
-                priority: 3
-            }
+        let items = Object.keys(this.state.tasks);
+
+        const order = {
+            '0' : 1,
+            '1' : 0,
+            '2' : 2
         }
 
-        let taskItems = Object.keys(tasks).map((task, index) => {
-            let tempTask = tasks[task];
+        items.sort((a, b) => {
+            console.log(order[this.state.tasks[a].progress])
+            if(order[this.state.tasks[a].progress] < order[this.state.tasks[b].progress]) {
+                return -1;
+            } else if(order[this.state.tasks[a].progress] > order[this.state.tasks[b].progress]) {
+                return 1;
+            } else if(this.state.tasks[a].priority - this.state.tasks[b].priority !== 0) {
+                return this.state.tasks[b].priority - this.state.tasks[a].priority ;
+            } else {
+                return this.state.tasks[a].date - this.state.tasks[b].date;
+            }
+        })
+
+
+        let taskItems = items.map((task, index) => {
+            let tempTask = this.state.tasks[task];
             tempTask.id = task;
 
-            return <TaskItem key={index} task={tempTask} />
+            return <TaskItem currentUser={this.props.currentUser} key={index} task={tempTask} />
         });
 
         return (
@@ -80,9 +76,19 @@ class TaskItem extends Component {
         this.setState({ taskStatus: this.state.taskStatus + 1 });
     }
 
+    changeProgress() {
+        let taskRef = firebase.database().ref("tasks").child(this.props.currentUser.uid);
+
+        let tempTask = this.props.task;
+        tempTask.progress = (tempTask.progress + 1) % 3;
+
+        taskRef.child(this.props.task.id).set(tempTask);
+    }
+
     render() {
         const progressColor = ["primary", "warning", "success"];
         const progressText = ["TODO", "In Progress", "Completed"];
+        const iconPriority = ["fa-arrow-down", "fa-minus", "fa-arrow-up"];
 
         const styles = {
             button: {
@@ -96,16 +102,13 @@ class TaskItem extends Component {
             },
             icon: {
                 marginLeft: 10,
-                marginRight: 10
-            },
-            low: {
-                color: "blue",
-            },
-            medium: {
-                color: "yellow",
-            },
-            high: {
-                color: "red"
+                marginRight: 10,
+                colors: {
+                    '0' : { color: "blue" },
+                    '1' : { color: "yellow" },
+                    '2' : { color: "red" }
+                }
+                
             },
             wrap: {
                 wordWrap: "break-word"
@@ -129,7 +132,7 @@ class TaskItem extends Component {
             <ListGroupItem tag="a" action>
                 <Row>
                     <Col>
-                        <Button color={progressColor[this.props.task.progress]} onClick={() => this.toggleTask()}
+                        <Button color={progressColor[this.props.task.progress]} onClick={() => this.changeProgress()}
                             size="sm"><span style={styles.scale}>{progressText[this.props.task.progress]}</span></Button>
                     </Col>
                     <Col style={{ textAlign: "right" }}>asdfas</Col>
@@ -140,7 +143,7 @@ class TaskItem extends Component {
                     </Col>
                     <Col xs={2} md={1}>
                         <span style={{ float: "right" }}>
-                            {priorityValue()}
+                            <i className={"fa " + iconPriority[this.props.task.priority]} style={{ ...styles.icon, ...styles.icon.colors[this.props.task.priority] }} aria-hidden="true"></i>
                         </span>
                     </Col>
                 </Row>

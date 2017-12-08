@@ -6,7 +6,7 @@ export class MeetingModal extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      isModalOpen: false,
+      isModalOpen: true,
       meetingName: ''
     }
     this.toggle = this.toggle.bind(this);
