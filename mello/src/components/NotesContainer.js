@@ -164,6 +164,12 @@ class NoteItem extends Component {
     }
 
     render() {
+        const styles = StyleSheet.create({
+            container: {
+                width: "100%",
+            }
+        });
+
         return (
             <ListGroupItem
                 tag="a"
@@ -171,7 +177,7 @@ class NoteItem extends Component {
                 onMouseEnter={this.handleMouseEnter}
                 onMouseLeave={this.handleMouseLeave}
             >
-                <Container>
+                <Container className={css(styles.container)}>
                     <Card>
                         <CardBody>
                             <Row>
@@ -212,7 +218,7 @@ class Buttons extends Component {
         });
 
         return (
-            <ButtonGroup size="md" className={css(!this.props.display && styles.hide)}>
+            <ButtonGroup size="sm" className={css(!this.props.display && styles.hide)}>
                 <Button
                     onClick={this.props.handleEdit}
                     className={css(styles.hover)}
@@ -253,7 +259,7 @@ class NoteContent extends Component {
                 onChange={this.handleChange}
             /> :
             <div>
-                <Col sm={10}>
+                <Col sm={9}>
                     <ul>
                         <li>During meetings, we take notes.</li>
                         <ul>
@@ -264,7 +270,7 @@ class NoteContent extends Component {
                         <li>During meetings, we take notes.</li>
                     </ul>
                 </Col>
-                <Col sm={2}>
+                <Col sm={3}>
                     <Buttons
                         display={this.props.display}
                         handleEdit={this.props.handleEdit}

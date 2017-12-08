@@ -23,7 +23,7 @@ export default class MeetingDashboard extends Component {
                         {/* {TaskList} */}
                     </div>
                     <div xs={6} style={{ height: "100%", width: "50%", position: "fixed", left: "50%", top: "0"}}>
-                        <Notes />
+                        <Notes user={this.props.currentUser}/>
                     </div>
                 </div>
             </div>

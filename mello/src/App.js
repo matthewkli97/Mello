@@ -60,6 +60,10 @@ class App extends Component {
       return <UserDashboardPage {...routerProps} signoutHandle={() => this.handleSignOut()} currentUser={this.state.user} />
     };
 
+    let renderMeetingsdashboardPage = (routerProps) => {
+      return <MeetingDashboard {...routerProps} signoutHandle={() => this.handleSignOut()} currentUser={this.state.user} />
+    };
+
     return (
       <BrowserRouter basename={process.env.PUBLIC_URL + '/'}>
         <Switch>
@@ -67,7 +71,7 @@ class App extends Component {
           <Route exact path='/signup' component={renderSignupPage} />
           <Route exact path='/temp' component={MeetingDashboard} />
           <Route exact path='/welcome' component={renderUserdashboardPage} />
-          <Route exact path='/notes' component={RenderNotes} />
+          <Route exact path='/meeting/:meetingId' component={renderMeetingsdashboardPage} />
           <Redirect to="/welcome" />
         </Switch>
       </BrowserRouter>
