@@ -10,6 +10,7 @@ import { Container } from 'reactstrap'
 
 import firebase from 'firebase/app';
 
+import MeetingDashboard from './pages/MeetingDashboard'
 
 class App extends Component {
 
