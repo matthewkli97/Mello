@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { TextField, IconButton, Paper, Grid, CircularProgress, Typography, Hidden } from 'material-ui';
 import firebase from 'firebase/app';
-import SendIcon from 'material-ui-icons/Send';
 import CompleteIcon from 'material-ui-icons/Done';
 import CancelIcon from 'material-ui-icons/Clear';
 import DeleteIcon from 'material-ui-icons/DeleteForever';
@@ -310,7 +309,7 @@ class MessageItem extends Component {
                                         <IconButton aria-label="Done" style={classes.icon} onClick={() => this.props.handleDelete()}>
                                             <DeleteIcon />
                                         </IconButton>
-                                        <IconButton aria-label="Done" style={classes.icon} onClick={() => { this.props.handleUpdate(this.state.message), this.setState({ editing: false }) }}>
+                                        <IconButton aria-label="Done" style={classes.icon} onClick={() => {() => this.props.handleUpdate(this.state.message), this.setState({ editing: false }) }}>
                                             <CompleteIcon />
                                         </IconButton>
                                     </div>

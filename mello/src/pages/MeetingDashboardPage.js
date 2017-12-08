@@ -1,11 +1,5 @@
 import React, { Component } from 'react';
-import Notes from '../components/NotesContainer';
-import {
-    Container,
-    Row,
-    Col,
-    Button
-} from 'reactstrap';
+import {Container,Row ,Col} from 'reactstrap';
 
 import NoteChat from '../components/NoteChat'
 import Calendar from '../components/Calendar'

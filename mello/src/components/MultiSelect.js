@@ -5,10 +5,6 @@ import 'react-select/dist/react-select.css';
 
 export default class MultiSelect extends Component {
 
-	constructor(props) {
-		super(props);
-	}
-
 	render() {
 
 		return (

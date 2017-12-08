@@ -1,8 +1,7 @@
 import React, { Component } from 'react';
 import AuthProvider from '../components/AuthProvider';
-import { Redirect, Link} from 'react-router-dom';
-import firebase from 'firebase/app';
-import {Container, Button} from 'reactstrap';
+import { Link} from 'react-router-dom';
+import {Container} from 'reactstrap';
 
 export default class LoginPage extends Component {
 

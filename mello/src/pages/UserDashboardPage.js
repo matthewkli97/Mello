@@ -1,14 +1,9 @@
 import React, { Component } from 'react';
-import { Redirect, Link } from 'react-router-dom';
 import firebase from 'firebase/app';
 import { Container, Col, Row, Button } from 'reactstrap';
 import TaskList from '../components/TaskList';
 import ModalExample from '../components/ModalExample.js';
 import Calendar from '../components/Calendar'
-
-import BlockUi from 'react-block-ui';
-import 'react-block-ui/style.css';
-
 import { RingLoader } from 'react-spinners';
 
 

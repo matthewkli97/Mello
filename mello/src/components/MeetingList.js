@@ -7,10 +7,6 @@ import firebase from 'firebase/app';
 
 export default class MeetingList extends Component {
 
-    constructor(props) {
-        super(props);
-    }
-
     render() {
 
         if (this.props.meetings && this.props.meetings != null) {

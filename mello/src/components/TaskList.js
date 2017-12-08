@@ -122,15 +122,6 @@ class TaskItem extends Component {
             return <li key={index}>{this.props.task.requirements[key]}</li>
         })
 
-        let priorityValue = () => {
-            if (this.props.task.priority === 1)
-                return <i className="fa fa-arrow-down" style={{ ...styles.icon, ...styles.low }} aria-hidden="true"></i>
-            else if (this.props.task.priority === 2)
-                return <i className="fa fa-minus" style={{ ...styles.icon, ...styles.medium }} aria-hidden="true"></i>
-            else
-                return <i className="fa fa-arrow-up" style={{ ...styles.icon, ...styles.high }} aria-hidden="true"></i>
-        }
-
         return (
             <ListGroupItem tag="a" action>
                 <Row>

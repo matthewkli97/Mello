@@ -1,16 +1,10 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
-import './App.css';
-import { BrowserRouter, Route, Switch, Redirect, NavLink, Link } from 'react-router-dom';
+import { BrowserRouter, Route, Switch, Redirect, Link } from 'react-router-dom';
 import LoginPage from './pages/LoginPage';
 import UserDashboardPage from './pages/UserDashboardPage';
 import MeetingDashboardPage from './pages/MeetingDashboardPage';
 
-import { Container } from 'reactstrap'
-
 import firebase from 'firebase/app';
-
-import MeetingDashboard from './pages/MeetingDashboard'
 
 class App extends Component {
 
@@ -71,7 +65,7 @@ class App extends Component {
         <div style={styles.page}>
           <div style={{ position: "fixed", top: 0, left: 0, width: "100%", zIndex: 100 }}>
             <nav class="navbar bg-dark" style={{ paddingLeft: "5%", paddingRight: "5%" }}>
-              <a class="navbar-brand" href="#"><Link style={{ color: "white" }} to='/'>Mello</Link></a>
+              <Link className="navbar-brand" style={{ color: "white" }} to='/'>Mello</Link>
             </nav>
           </div>
           {
