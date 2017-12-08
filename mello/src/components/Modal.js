@@ -58,56 +58,46 @@ export class TaskModal extends Component {
     this.state = {
       isModalOpen: false,
       taskName: undefined,
-      member: undefined,
       dueDate: undefined,
-      requirement: undefined,
-      requirements: [],
-      priority: 1
+      requirements: undefined,
+      priority: 1,
+      meetingKey: '-L-kQ5S_sTpEhNeC92Ky',
+      memberAssignedTo: undefined,
+      userKey: 'X6gdgCz7NmPGOVcdQSKgkzXAerk1'
     }
     this.toggle = this.toggle.bind(this);
   }
+
   toggle() {
     if (this.state.isModalOpen) {
       this.addRequirement()
     }
     this.setState({isModalOpen: !this.state.isModalOpen});
   }
+  
   create() {
-    this.addRequirement();
     let newTask = {
       taskName: this.state.taskName,
-      // CHANGE THIS!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-    // CHANGE THIS!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-    // CHANGE THIS!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-    // CHANGE THIS!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-    // CHANGE THIS!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-      member: 'firebase.auth().currentUser.uid',
       progress: 0,
-      memberAssignedTo: this.state.member,
-      dueDate: this.state.dueDate,
-      requirements: this.state.requirements,
+      memberAssignedTo: this.state.memberAssignedTo,
+      dueDate: new Date(this.state.dueDate).getTime(),
+      requirements: this.state.requirements.split(', '),
       taskTrue: true,
       priority: this.state.priority - 1,
       members: []
     }
-    // CHANGE THIS!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-    // CHANGE THIS!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-    // CHANGE THIS!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-    // CHANGE THIS!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-    // CHANGE THIS!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-    firebase.database().ref('tasks/-L-kQ5S_sTpEhNeC92Ky').push(newTask); 
+    firebase.database().ref('meetings/'+this.state.meetingKey).push(newTask); 
+    firebase.database().ref('members/'+this.state.userKey+'/tasks').push(newTask);
     this.toggle();
   }
+
   onChange(e) {
     let newState = {};
     newState[e.target.name] = e.target.value;
     this.setState(newState);
+    console.log(e.target.value);
   }
-  addRequirement() {
-    let updatedState = this.state.requirements;
-    updatedState.push(this.state.requirement);
-    this.setState(updatedState);
-  }
+  
   componentWillMount() {
     let members = [];
     let memberNames = [];
@@ -124,7 +114,9 @@ export class TaskModal extends Component {
       return null;
     });
   }
+
   optionChange(member) {
+    console.log('here');
     this.setState({memberAssignedTo: member.userId});
   }
   render() {
@@ -143,11 +135,8 @@ export class TaskModal extends Component {
           </Input>
           <Label for="dueDate">Due Date</Label>
           <Input type="date" name="dueDate" id="exampleDate" placeholder="date placeholder" onChange={(e) => this.onChange(e)} />
-          <Label for="requirement">Task Requirement</Label>
-          <div id='requirement'>
-           <Input id='left' name='requirement' onChange={(e) => this.onChange(e)} placeholder="Doesn't slow app down"/>
-           <Button color='primary' id='right' onClick={(e) => this.addRequirement(e)}>Add Requirement</Button>
-          </div>
+          <Label for="requirements">Task Requirement</Label>
+           <Input id='left' name='requirements' onChange={(e) => this.onChange(e)} placeholder="Doesn't slow app down"/>
           <Label for="priority">Priority (1 is low)</Label>
           <Input type="select" name="priority" id="exampleSelect" onChange={(e) => this.onChange(e)}>
             <option>1</option>
