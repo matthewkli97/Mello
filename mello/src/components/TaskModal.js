@@ -1,19 +1,20 @@
 /* eslint react/no-multi-comp: 0, react/prop-types: 0 */
 
-import React from 'react';
-import { Button, Modal, ModalHeader, ModalBody, ModalFooter, FormGroup, Label, Input, Container, Row, Col } from 'reactstrap';
+import React, { Component } from 'react';
+import { Button, ButtonGroup, Modal, ModalHeader, ModalBody, ModalFooter, FormGroup, Label, Input, Container, Row, Col } from 'reactstrap';
 import moment from 'moment';
 import InfiniteCalendar from 'react-infinite-calendar';
 import 'react-infinite-calendar/styles.css'; // only needs to be imported once
 import { isValid } from 'date-fns';
 import BlockUi from 'react-block-ui';
 import 'react-block-ui/style.css';
+import DynamicInput from './DynamicInput'
 
 import MultiSelect from './MultiSelect'
 
 import firebase from 'firebase/app';
 
-class ModalExample extends React.Component {
+export default class TaskModal extends Component {
 
     constructor(props) {
         super(props);
@@ -21,13 +22,14 @@ class ModalExample extends React.Component {
             modal: false,
             date: new Date(),
             m: moment(),
-            description: "",
             title: "",
             time: "10:30",
             blocking: false,
             selectedOption: '',
-            selectedUsers: this.props.currentUser.uid,
-            users: []
+            selectedUsers: [],
+            users: [],
+            requirements: [],
+            rSelected: null
         };
         this.toggle = this.toggle.bind(this);
     }
@@ -54,11 +56,12 @@ class ModalExample extends React.Component {
             time: "10:30",
             title: "",
             blocking: false,
-            selectedUsers: this.props.currentUser.uid
+            selectedUsers: [],
+            rSelected: null
         });
     }
 
-    createMeeting() {
+    createTask() {
         if (this.allValid()) {
             let tempDate = this.state.date;
             let timeArray = this.state.time.split(":");
@@ -69,28 +72,27 @@ class ModalExample extends React.Component {
 
             let userArray = this.state.selectedUsers.split(',');
 
-            let newMeeting = {
-                meetingName: this.state.title,
-                date: time,
-                description: this.state.description,
-                members: userArray
+            let newTask = {
+                taskName: this.state.title,
+                dueDate: time,
+                requirements: this.state.requirements,
+                priority: this.state.rSelected,
+                progress: 0,
+                assignee: this.props.currentUser.uid,
+                meetingId: this.props.meetingId
             }
 
             this.toggleBlocking();
 
-            var ref = firebase.database().ref("meetings");
-            // this new, empty ref only exists locally
-            var newChildRef = ref.push();
-            // we can get its id using key()
-            newChildRef.set(newMeeting)
-
-            newMeeting.id = newChildRef.key;
-
-            for (let i = 0; i < userArray.length; i++) {
-                if (userArray[i].length > 0) {
-                    firebase.database().ref("members").child(userArray[i]).child("permissions")
-                    .push({name: newMeeting.meetingName, date: newMeeting.date, id: newMeeting.id});
-                }
+            var ref = firebase.database().ref("tasks");
+            var secondary = firebase.database().ref("meetings").child(this.props.meetingId).child("tasks");
+            
+            for(let i = 0; i < userArray.length; i++) {
+                var newChildRef = ref.child(userArray[i]).push();
+                var secondaryChildRef = secondary.push();
+    
+                secondaryChildRef.set({...newTask, ...{meetingTaskId: secondaryChildRef.key,  userTaskId: newChildRef.key}, ...{assignedTo: userArray[i]}});
+                newChildRef.set({...newTask, ...{meetingTaskId: secondaryChildRef.key, userTaskId: newChildRef.key}, ...{assignedTo: userArray[i]}});
             }
 
             this.toggle();
@@ -103,8 +105,7 @@ class ModalExample extends React.Component {
     }
 
     allValid() {
-        return (this.state.description.length > 0 &&
-            this.state.title.length > 0 && this.state.time.length > 0)
+        return (this.state.rSelected != null && this.state.title.length > 0 && this.state.time.length > 0 && this.state.selectedUsers.length > 0)
     }
 
     handleDateSelect(date) {
@@ -127,6 +128,14 @@ class ModalExample extends React.Component {
         this.setState({ selectedUsers: value })
     }
 
+    handleDynamicInput(value) {
+        this.setState({ requirements: value });
+    }
+
+    onRadioBtnClick(rSelected) {
+        this.setState({ rSelected });
+    }
+
     render() {
         const styles = {
             marginTop: {
@@ -147,17 +156,23 @@ class ModalExample extends React.Component {
                                         <InfiniteCalendar
                                             width={"100%"} height={250} selected={this.state.date} onSelect={(date) => { this.handleDateSelect(date) }} />
                                         <FormGroup>
-                                            <Label for="exampleTime">Time</Label>
+                                            <Label for="exampleTime">Due</Label>
                                             <Input type="time" name="time" id="exampleTime" value={this.state.time} onChange={(e) => this.handleTimeSelect(e)} />
                                         </FormGroup>
                                     </Col>
                                     <Col xs={12} md={6}>
                                         <FormGroup>
-                                            <Label style={styles.marginTop} for="meetingTitle">Meeting:</Label>
+                                            <Label style={styles.marginTop} for="meetingTitle">Task Name:</Label>
                                             <Input onChange={(e) => this.handleTitleChange(e)} name="meetingTitle" value={this.state.title} />
-                                            <Label style={styles.marginTop} for="exampleText">Meeting Objectives:</Label>
-                                            <Input onChange={(e) => this.handleDescriptionChange(e)} value={this.state.description} type="textarea" rows={6} name="text" id="exampleText" />
-                                            <Label style={styles.marginTop} for="exampleSelectMulti">Select Attendees</Label>
+                                            <Label style={styles.marginTop} for="exampleText">Task Requirements:</Label>
+                                            <DynamicInput callback={(value) => this.handleDynamicInput(value)} />
+                                            <Label style={styles.marginTop} for="exampleText">Priority:</Label>
+                                            <div style={{display:"block"}}>
+                                                <Button color="primary" onClick={() => this.onRadioBtnClick(0)} active={this.state.rSelected === 0}>One</Button> {"  "}
+                                                <Button color="primary" onClick={() => this.onRadioBtnClick(1)} active={this.state.rSelected === 1}>Two</Button> {"  "}
+                                                <Button color="primary" onClick={() => this.onRadioBtnClick(2)} active={this.state.rSelected === 2}>Three</Button>
+                                            </div>
+                                            <Label style={styles.marginTop} for="exampleSelectMulti">Deligate to:</Label>
                                             <MultiSelect selected={this.state.selectedUsers} options={this.state.users} handleSelectChange={(value) => this.handleSelectChange(value)} />
                                         </FormGroup>
                                     </Col>
@@ -165,7 +180,7 @@ class ModalExample extends React.Component {
                             </Container>
                         </ModalBody>
                         <ModalFooter>
-                            <Button color="primary" disabled={!this.allValid()} onClick={() => this.createMeeting()}>Create</Button>{' '}
+                            <Button color="primary" disabled={!this.allValid()} onClick={() => this.createTask()}>Create</Button>{' '}
                             <Button color="secondary" onClick={this.toggle}>Cancel</Button>
                         </ModalFooter>
                     </BlockUi>
@@ -174,5 +189,3 @@ class ModalExample extends React.Component {
         );
     }
 }
-
-export default ModalExample;

@@ -10,14 +10,6 @@ export default class MultiSelect extends Component {
 	}
 
 	render() {
-		const FLAVOURS = [
-			{ label: 'Chocolate', value: 'chocolate' },
-			{ label: 'Vanilla', value: 'vanilla' },
-			{ label: 'Strawberry', value: 'strawberry' },
-			{ label: 'Caramel', value: 'caramel' },
-			{ label: 'Cookies and Cream', value: 'cookiescream' },
-			{ label: 'Peppermint', value: 'peppermint' },
-		];
 
 		return (
 			<Select

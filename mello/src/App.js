@@ -1,9 +1,12 @@
 import React, { Component } from 'react';
 import logo from './logo.svg';
 import './App.css';
-import { BrowserRouter, Route, Switch, Redirect, NavLink } from 'react-router-dom';
+import { BrowserRouter, Route, Switch, Redirect, NavLink, Link } from 'react-router-dom';
 import LoginPage from './pages/LoginPage';
 import UserDashboardPage from './pages/UserDashboardPage';
+import MeetingDashboardPage from './pages/MeetingDashboardPage';
+
+import {Container} from 'reactstrap'
 
 import firebase from 'firebase/app';
 
@@ -57,14 +60,26 @@ class App extends Component {
       return <UserDashboardPage {...routerProps} signoutHandle={() => this.handleSignOut()} currentUser={this.state.user} />
     };
 
+    let renderMeetingDashboardPage = (routerProps) => {
+      return <MeetingDashboardPage {...routerProps} signoutHandle={() => this.handleSignOut()} currentUser={this.state.user} />
+    };
+
     return (
       <BrowserRouter basename={process.env.PUBLIC_URL + '/'}>
-        <Switch>
-          <Route exact path='/login' component={renderLoginPage} />
-          <Route exact path='/signup' component={renderSignupPage} />
-          <Route exact path='/welcome' component={renderUserdashboardPage} />
-          <Redirect to="/welcome" />
-        </Switch>
+        <div style={styles.page}>
+          <div style={{ position: "fixed", top: 0, left: 0, width: "100%", zIndex: 100 }}>
+            <nav class="navbar bg-dark" style={{paddingLeft: "5%", paddingRight: "5%"}}>
+                <a class="navbar-brand" href="#"><Link style={{ color: "white" }} to='/'>Mello</Link></a>
+            </nav>
+          </div>
+          <Switch>
+            <Route exact path='/login' component={renderLoginPage} />
+            <Route exact path='/signup' component={renderSignupPage} />
+            <Route exact path='/welcome' component={renderUserdashboardPage} />
+            <Route exact path="/meeting/:meetingId" component={renderMeetingDashboardPage} />
+            <Redirect to="/welcome" />
+          </Switch>
+        </div>
       </BrowserRouter>
     );
   }

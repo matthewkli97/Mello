@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Collapse, Button, CardBody, Card, ListGroupItem, ListGroup, ListGroupItemHeading, Row, Col } from 'reactstrap';
+import Time from 'react-time';
 
 import firebase from 'firebase/app'
 
@@ -12,50 +13,43 @@ export default class TaskList extends Component {
         }
     }
 
-    componentDidMount() {
-        let ref = firebase.database().ref("tasks").child(this.props.currentUser.uid);
-
-        ref.on("value", (snapshot) => {
-            this.setState({ tasks: snapshot.val() });
-        });
-    }
-
     render() {
+        if (this.props.tasks) {
+            let items = Object.keys(this.props.tasks);
 
-        let items = Object.keys(this.state.tasks);
-
-        const order = {
-            '0' : 1,
-            '1' : 0,
-            '2' : 2
-        }
-
-        items.sort((a, b) => {
-            console.log(order[this.state.tasks[a].progress])
-            if(order[this.state.tasks[a].progress] < order[this.state.tasks[b].progress]) {
-                return -1;
-            } else if(order[this.state.tasks[a].progress] > order[this.state.tasks[b].progress]) {
-                return 1;
-            } else if(this.state.tasks[a].priority - this.state.tasks[b].priority !== 0) {
-                return this.state.tasks[b].priority - this.state.tasks[a].priority ;
-            } else {
-                return this.state.tasks[a].date - this.state.tasks[b].date;
+            const order = {
+                '0': 1,
+                '1': 0,
+                '2': 2
             }
-        })
 
+            items.sort((a, b) => {
+                console.log(order[this.props.tasks[a].progress])
+                if (order[this.props.tasks[a].progress] < order[this.props.tasks[b].progress]) {
+                    return -1;
+                } else if (order[this.props.tasks[a].progress] > order[this.props.tasks[b].progress]) {
+                    return 1;
+                } else if (this.props.tasks[a].priority - this.props.tasks[b].priority !== 0) {
+                    return this.props.tasks[b].priority - this.props.tasks[a].priority;
+                } else {
+                    return this.props.tasks[a].date - this.props.tasks[b].date;
+                }
+            });
 
-        let taskItems = items.map((task, index) => {
-            let tempTask = this.state.tasks[task];
-            tempTask.id = task;
+            let taskItems = items.map((task) => {
+                return <TaskItem key={task} task={this.props.tasks[task]} />
+            });
 
-            return <TaskItem currentUser={this.props.currentUser} key={index} task={tempTask} />
-        });
-
-        return (
-            <ListGroup>
-                {taskItems}
-            </ListGroup>
-        );
+            return (
+                <ListGroup>
+                    {taskItems}
+                </ListGroup>
+            );
+        } else {
+            return (<div>
+                No Tasks
+            </div>)
+        }
     }
 }
 
@@ -68,6 +62,16 @@ class TaskItem extends Component {
         };
     }
 
+    componentDidMount() {
+        this.taskRef = firebase.database().ref("tasks").child(this.props.task.assignedTo).child(this.props.task.userTaskId);
+        this.meetingTaskRef = firebase.database().ref("meetings").child(this.props.task.meetingId).child("tasks").child(this.props.task.meetingTaskId);
+    }
+
+    componentWillUnmount() {
+        this.taskRef.off();
+        this.meetingTaskRef.off();
+    }
+
     toggle() {
         this.setState({ collapse: !this.state.collapse });
     }
@@ -77,12 +81,11 @@ class TaskItem extends Component {
     }
 
     changeProgress() {
-        let taskRef = firebase.database().ref("tasks").child(this.props.currentUser.uid);
-
         let tempTask = this.props.task;
         tempTask.progress = (tempTask.progress + 1) % 3;
 
-        taskRef.child(this.props.task.id).set(tempTask);
+        this.taskRef.set(tempTask);
+        this.meetingTaskRef.set(tempTask);
     }
 
     render() {
@@ -104,11 +107,11 @@ class TaskItem extends Component {
                 marginLeft: 10,
                 marginRight: 10,
                 colors: {
-                    '0' : { color: "blue" },
-                    '1' : { color: "yellow" },
-                    '2' : { color: "red" }
+                    '0': { color: "blue" },
+                    '1': { color: "yellow" },
+                    '2': { color: "red" }
                 }
-                
+
             },
             wrap: {
                 wordWrap: "break-word"
@@ -135,7 +138,7 @@ class TaskItem extends Component {
                         <Button color={progressColor[this.props.task.progress]} onClick={() => this.changeProgress()}
                             size="sm"><span style={styles.scale}>{progressText[this.props.task.progress]}</span></Button>
                     </Col>
-                    <Col style={{ textAlign: "right" }}>asdfas</Col>
+                    <Col style={{ textAlign: "right" }}><Time value={this.props.task.dueDate} format="MM/DD/YYYY" /></Col>
                 </Row>
                 <Row style={{ marginTop: 10 }} onClick={() => this.toggle()}>
                     <Col xs={10} md={11}>
