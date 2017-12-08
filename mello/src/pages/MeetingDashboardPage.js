@@ -57,23 +57,6 @@ export default class MeetingDashboardPage extends Component {
 
         if (this.props.currentUser) {
             return (
-                // <div style={{ height: "100%" }}>
-                //     <TaskModal buttonLabel={"Create Task"} currentUser={this.props.currentUser} meetingId={this.props.match.params.meetingId} />
-                //     <ModalExample buttonLabel={"Create Meeting"} currentUser={this.props.currentUser} />
-                //     <div xs={6} style={{ height: "100%", width: "50%", position: "fixed", left: 0, top: 0 }}>
-                //         <Container style={{ height: "50%" }}>
-                //             <TaskList currentUser={this.props.currentUser} tasks={this.state.meeting.tasks} />
-                //         </Container>
-                //         <Container style={{ height: "47%" }}>
-                //             <Calendar events={[]} />
-                //         </Container>
-                //     </div>
-                //     <div xs={6} style={{ height: "100%", width: "50%", position: "fixed", left: "50%", top: "0" }}>
-                //         <Container>
-                //             <NoteChat currentUser={this.props.currentUser} meetingId={this.props.match.params.meetingId} />
-                //         </Container>
-                //     </div>
-                // </div>
                 <div style={{ height: "100%", padding: "5%" }}>
                     <Row>
                         <div style={{ margin: 15 }}>

@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
-import { ListGroup, Collapse, ListGroupItem, ListGroupItemHeading, Card, CardBody, Row, Col } from 'reactstrap';
+import { ListGroup, Collapse, ListGroupItem, ListGroupItemHeading, Card, CardBody, Row, Col, Button } from 'reactstrap';
+import { NavLink } from "react-router-dom"
 import Time from 'react-time'
 
 import firebase from 'firebase/app';
@@ -109,6 +110,7 @@ class MeetingItem extends Component {
                         <Collapse
                             isOpen={this.state.collapse}
                         >
+                            <Button style={{ marginTop: 5, marginBottom: 5 }} color="primary"><NavLink style={{ color: "white" }} to={"/meeting/" + this.props.id}>Enter Meeting</NavLink></Button>
                             <Card>
                                 <CardBody>
                                     <p className="h6">Description</p>

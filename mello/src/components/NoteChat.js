@@ -3,7 +3,7 @@ import { TextField, IconButton, Paper, Grid, CircularProgress, Typography, Hidde
 import firebase from 'firebase/app';
 import SendIcon from 'material-ui-icons/Send';
 import CompleteIcon from 'material-ui-icons/Done';
-//import CancelIcon from 'material-ui-icons/Clear';
+import CancelIcon from 'material-ui-icons/Clear';
 import DeleteIcon from 'material-ui-icons/DeleteForever';
 import { Button } from 'reactstrap';
 import Time from 'react-time';
@@ -305,7 +305,7 @@ class MessageItem extends Component {
                                     <div><TextField multiline value={this.state.message}
                                         onChange={(e) => this.updateMessageState(e)} style={classes.textField} />
                                         <IconButton aria-label="Done" style={classes.icon} onClick={() => this.handleClose()}>
-                                            <DeleteIcon />
+                                            <CancelIcon />
                                         </IconButton>
                                         <IconButton aria-label="Done" style={classes.icon} onClick={() => this.props.handleDelete()}>
                                             <DeleteIcon />

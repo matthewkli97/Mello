@@ -32,7 +32,6 @@ export default class UserDashboardPage extends Component {
             taskRef.on("value", (snapshot) => {
                 this.setState({ tasks: snapshot.val() });
                 this.gatherEvents();
-                console.log(this.state);
             });
 
             this.setState({ loading: true })
@@ -41,6 +40,7 @@ export default class UserDashboardPage extends Component {
 
             this.memberRef.on("value", (snapshot) => {
                 this.setState({ meetings: snapshot.val() });
+                this.gatherEvents();
             });
         }
     }
@@ -100,10 +100,12 @@ export default class UserDashboardPage extends Component {
 
         const styles = {
             row: {
-                height: "50%"
+                minHeight: "50%",
+                maxHeight: "50%"
             },
             container: {
-                height: "100%"
+                height: "100%",
+                paddingTop: 100
             },
             spinner: {
                 display: "inline-block",
@@ -119,7 +121,7 @@ export default class UserDashboardPage extends Component {
                 paddingLeft: "auto"
             },
             overFlow: {
-                maxHeight: 600,
+                maxHeight: "30%",
                 overflowX: "hidden",
                 overflowY: "auto"
             },
@@ -132,8 +134,8 @@ export default class UserDashboardPage extends Component {
                 backgroundSize: "cover",
                 display: "block",
                 borderRadius: "50%",
-                marginRight:"auto",
-                marginLeft:"auto"
+                marginRight: "auto",
+                marginLeft: "auto"
             }
         }
 
@@ -165,7 +167,7 @@ export default class UserDashboardPage extends Component {
                             <TaskList currentUser={this.props.currentUser} tasks={this.state.tasks} />
                         </Col>
                     </Row>
-                    <Row style={{ ...styles.row, ...styles.marginTop }}>
+                    <Row style={{ ...styles.row, ...styles.marginTop, ...styles.overFlow }}>
                         <Col sm="12" md="6" style={{ height: 400 }}>
                             <Calendar events={this.state.events} />
                         </Col>
