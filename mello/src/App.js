@@ -7,6 +7,7 @@ import UserDashboardPage from './pages/UserDashboardPage';
 import RenderNotes from './components/NotesContainer';
 import firebase from 'firebase/app';
 
+import MeetingDashboard from './pages/MeetingDashboard'
 
 class App extends Component {
   
@@ -63,8 +64,9 @@ class App extends Component {
         <Switch>
           <Route exact path='/login' component={renderLoginPage} />
           <Route exact path='/signup' component={renderSignupPage} />
+          <Route exact path='/temp' component={MeetingDashboard} />
           <Route exact path='/welcome' component={renderUserdashboardPage} />
-          {/* <Route exact path='/notes' component={RenderNotes} /> */}
+          <Route exact path='/notes' component={RenderNotes} />
           <Redirect to="/welcome" />
         </Switch>
       </BrowserRouter>
