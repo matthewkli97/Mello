@@ -25,7 +25,9 @@ export default class LoginPage extends Component {
         //if (this.props.currentUser === null) {
             return (
                 <Container style={styles.container}>
+                <div style={{height:"500px", width:"400px"}}>
                         <Calendar></Calendar>
+                </div>
                     {this.props.newAccount && 
                     <div>
                         <h1>Hey! Join the conversation!</h1>

@@ -158,8 +158,6 @@ class Weeks extends Component{
         )}
 }
 
-
-
 class Week extends Component{
     constructor(props){
         super(props);
@@ -197,9 +195,7 @@ class Day extends Component{
             todayEvent :[]
         }
     }
-
-
-    
+ 
     click(){
         this.setState({local:!this.state.local});
         this.props.handleClick()
@@ -231,6 +227,7 @@ class Day extends Component{
         );
     }
 }
+
 class Event extends Component{
     constructor(props){
         super(props);
@@ -239,7 +236,6 @@ class Event extends Component{
             today: []
         }
     }
-    
 
     render(){
         let content=[];
@@ -273,10 +269,3 @@ class Event extends Component{
     }
 }
 
-// class Legend extend Component(){
-//     render(){
-//         return(
-//             <div className="legend"></div>
-//         );
-//     }
-// }
