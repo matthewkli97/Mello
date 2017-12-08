@@ -15,6 +15,9 @@ import {
     Col
 } from 'reactstrap';
 
+import firebase from 'firebase/app';
+import 'firebase/database';
+
 export default class NotesContainer extends Component {
     constructor(props) {
         super(props);
@@ -25,27 +28,16 @@ export default class NotesContainer extends Component {
         };
     }
 
-    componentDidMount() {
-        // this.ref 
-        //     = firebase.database()
-        //         .ref("messages/" + this.props.match.params.meetingId)
-        //         .orderByChild("time");
-
-        // this.ref.on("value", function(snapshot) {
-        //     this.setState({ conversations: snapshot.val() });
-        //   });
-    }
-
     handleKeyPress = (event) => {
         if (event.charCode == 13) {
             event.preventDefault();
             event.stopPropagation();
-            // this.ref.push({ 
-            //    user: this.user.displayName, 
-            //    message: this.state.message,  
-            //    time: firebase.database.ServerValue.TIMESTAMP,
-            //    edited: false
-            // }).catch((error) => console.log(error.message))
+            this.props.dbRef.push({
+                user: "Jenny Liang",
+                message: this.state.message,
+                time: firebase.database.ServerValue.TIMESTAMP,
+                edited: false
+            }).catch((error) => console.log(error.message))
             this.setState({ message: "" });
         }
     }
@@ -54,33 +46,26 @@ export default class NotesContainer extends Component {
         this.setState({ selectedMessageId: message });
     }
 
-    toggle = () => {
-    // toggle = (noteId) => {
-        this.setState({ isModalOpen: !this.state.isModalOpen });
-        // this.setState({ 
-        //     isModalOpen: !this.state.isModalOpen,
-        //     selectedMessageId: noteId
-        // });
+    // toggle = () => {
+    toggle = (noteId) => {
+        // this.setState({ isModalOpen: !this.state.isModalOpen });
+        this.setState({
+            isModalOpen: !this.state.isModalOpen,
+            selectedMessageId: noteId
+        });
     }
 
     handleOnChange = (event) => {
-        this.setState({ message: event.target.message }); 
+        this.setState({ message: event.target.value });
     }
 
     delete = () => {
-        this.setState({ isModalOpen: !this.state.isModalOpen });
-        // this.ref.child(this.state.selectedMessageId).remove()
-        //    .then(() => this.setState({ isModalOpen: !this.state.isModalOpen }));
+        // this.setState({ isModalOpen: !this.state.isModalOpen });
+        this.ref.child(this.state.selectedMessageId).remove()
+            .then(() => this.setState({ isModalOpen: !this.state.isModalOpen }));
     }
 
     render() {
-        let arr = [1, 2, 3, 4, 5, 6, 7, 8];
-        let taskItems = arr.map((task, index) => {
-            let tempTask = arr[task];
-
-            return <NoteItem key={index} task={tempTask} toggle={this.toggle} updateMsg={this.updateSelectedMessage} />;
-        });
-
         const styles = StyleSheet.create({
             textarea: {
                 height: "15vh",
@@ -102,27 +87,49 @@ export default class NotesContainer extends Component {
             }
         });
 
+        let noteItems = null;
+
+        if (this.props.messages !== undefined) {
+            noteItems = Object.keys(this.props.messages).map((note) => {
+                let tempNote = this.props.messages[note];
+                return <NoteItem dbRef={this.props.dbRef} key={note} noteId={note} note={tempNote} toggle={this.toggle} updateMsg={this.updateSelectedMessage} />;
+            });
+        }
+
         return (
             <div>
                 <Navbar color="primary" className={css(styles.navbar)} />
                 <ListGroup className={css(styles.listGroup)}>
-                    {taskItems}
+                    {noteItems}
                 </ListGroup>
                 <Container className={css(styles.textarea)}>
                     <Input
                         placeholder="Enter a message..."
                         type="textarea"
+                        value={this.state.message}
                         onChange={this.handleOnChange}
                         onKeyPress={this.handleKeyPress}
                         className={css(styles.textarea)}
                     />
                 </Container>
-                <Modal isOpen={this.state.isModalOpen} onClose={() => this.toggle()}>
-                    <h2>Are you sure you want to delete this post?</h2>
-                    <p><Button id='close' onClick={() => this.toggle()}>Close</Button></p>
-                    <p><Button id='delete' onClick={() => this.delete()}>Delete</Button></p>
-                </Modal>
+                <DeleteModal
+                    isModalOpen={this.state.isModalOpen}
+                    toggle={this.toggle}
+                    delete={this.delete}
+                />
             </div>
+        );
+    }
+}
+
+class DeleteModal extends Component {
+    render() {
+        return (
+            <Modal isOpen={this.props.isModalOpen} onClose={() => this.props.toggle()}>
+                <h2>Are you sure you want to delete this post?</h2>
+                <p><Button id='close' onClick={() => this.props.toggle()}>Close</Button></p>
+                <p><Button id='delete' onClick={() => this.props.delete()}>Delete</Button></p>
+            </Modal>
         );
     }
 }
@@ -130,7 +137,6 @@ export default class NotesContainer extends Component {
 class NoteItem extends Component {
     constructor(props) {
         super(props);
-        // this.key = Object.keys(this.props.note)[0];
         this.state = {
             edit: false,
             display: false,
@@ -153,13 +159,17 @@ class NoteItem extends Component {
         if (event.charCode == 13) {
             event.preventDefault();
             event.stopPropagation();
-            // this.props.ref.child(this.key)
-            //    .set({ edited: true })
-            //    .then(() => {
-            //        this.setState({ edit: false });
-            //    })
-            //    .catch((error) => console.log(error.message));
-            this.setState({ edit: false });
+            this.props.dbRef.child(this.props.noteId)
+                .set({ 
+                    edited: true, 
+                    message: event.target.value,
+                    time: this.props.note.time,
+                    user: this.props.note.user 
+                })
+                .then(() => {
+                    this.setState({ edit: false });
+                })
+                .catch((error) => console.log(error.message));
         }
     }
 
@@ -189,13 +199,14 @@ class NoteItem extends Component {
                                     handleChange={this.handleChange}
                                     toggle={this.props.toggle}
                                     updateMsg={this.props.updateMsg}
-                                    // noteId={this.key}
+                                    note={this.props.note}
+                                    noteId={this.props.noteId}
                                 />
                             </Row>
-                            <small> Jenny Liang, 9:00 AM </small>
-                            {/* <small> 
-                                {this.props.note.displayName} {this.props.note.time} {this.props.note.edited && (Edited)} 
-                                </small> */}
+                            {/* <small> Jenny Liang, 9:00 AM </small> */}
+                            <small>
+                                {this.props.note.user} {this.props.note.time} {this.props.note.edited && "(Edited)"}
+                            </small>
                         </CardBody>
                     </Card>
                 </Container>
@@ -227,7 +238,7 @@ class Buttons extends Component {
                 </Button>
                 <Button
                     // onClick={this.props.toggle(this.props.noteId)}
-                    onClick={this.props.toggle}
+                    // onClick={this.props.toggle}
                     className={css(styles.hover)}
                 >
                     Delete
@@ -241,7 +252,7 @@ class NoteContent extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            messageContent: "TEST"
+            messageContent: this.props.note.message
         }
     }
 
@@ -260,15 +271,7 @@ class NoteContent extends Component {
             /> :
             <div>
                 <Col sm={9}>
-                    <ul>
-                        <li>During meetings, we take notes.</li>
-                        <ul>
-                            <li> WOW! </li>
-                        </ul>
-                        <li>During meetings, we take notes.</li>
-                        <li>During meetings, we take notes.</li>
-                        <li>During meetings, we take notes.</li>
-                    </ul>
+                    {this.props.note.message}
                 </Col>
                 <Col sm={3}>
                     <Buttons
