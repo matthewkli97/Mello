@@ -16,7 +16,8 @@ export class Calendar extends Component{
     }
 
     componentDidMount() {   
-        this.groupRef = firebase.database().ref("tasks");
+        // this.groupRef = firebase.database().ref('tasks'+firebase.auth()
+        this.groupRef = firebase.database().ref("tasks").orderByChild("dueDate");;
         this.groupRef.on('value', (snapshot) => {
             console.log(snapshot.val());
             this.setState({ events: snapshot.val() });
@@ -130,7 +131,7 @@ class Month extends Component{
         return(
             <div style={{backgroundColor:"white"}}>
                 {/* {/* {content} */}
-                <Weeks days={content} current = {this.props.current} events={this.props.events)}/>
+                <Weeks days={content} current = {this.props.current} events={this.props.events}/>
             </div>
         );
     }
@@ -173,8 +174,7 @@ class Week extends Component{
     render(){        
         let content = [];
         this.props.days.map((day)=>{
-            content.push(<Day key={day} day={moment(day)} current={this.props.current} handleClick={()=>{this.handleClick()}} events={this.props.events)/>)
-        })
+        content.push(<Day key={day} day={moment(day)} current={this.props.current} handleClick={()=>{this.handleClick()}} events={this.props.events}/>)})
         
         return(
             <div className="week">
@@ -198,10 +198,7 @@ class Day extends Component{
         }
     }
 
-    // thisDaysEvent(){
-        // find out this day's event
-        // if true : 
-    // }
+
     
     click(){
         this.setState({local:!this.state.local});
@@ -226,7 +223,7 @@ class Day extends Component{
             <div className={""+className} onClick={()=>this.click(this.state.local)}>
                 <div className="day-name">{theDay.format('ddd')}</div>
                 <div className="day-number">{theDay.format('DD')}
-                {this.today.event && <span className="blue"></span>}
+                {this.state.todayEvent && <span className="blue"></span>}
                 </div>
                 {this.state.local &&<div className="arrow"></div>}
             </div>
@@ -247,14 +244,15 @@ class Event extends Component{
     render(){
         let content=[];
         if(this.state.today){
-            this.state.today.map(task){
+            this.state.today.map((task)=>{
                 content.push( <div className="event">
                 {/* <div className={"event-category"+"blue"}></div> */}
                 <span>
+                    hello
                 {this.state.today.taskName}
                 </span>
                 </div>)
-            }
+            })
             
         }else{
             content=(
