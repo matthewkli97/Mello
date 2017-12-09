@@ -152,12 +152,13 @@ class ModalExample extends React.Component {
                                     </Col>
                                     <Col xs={12} md={6}>
                                         <FormGroup>
-                                            <Label style={styles.marginTop} for="meetingTitle">Meeting:</Label>
+                                            <Label style={styles.marginTop} for="meetingTitle">Meeting: *</Label>
                                             <Input onChange={(e) => this.handleTitleChange(e)} name="meetingTitle" value={this.state.title} />
-                                            <Label style={styles.marginTop} for="exampleText">Meeting Objectives:</Label>
+                                            <Label style={styles.marginTop} for="exampleText">Meeting Objectives: *</Label>
                                             <Input onChange={(e) => this.handleDescriptionChange(e)} value={this.state.description} type="textarea" rows={6} name="text" id="exampleText" />
                                             <Label style={styles.marginTop} for="exampleSelectMulti">Select Attendees</Label>
                                             <MultiSelect selected={this.state.selectedUsers} options={this.state.users} handleSelectChange={(value) => this.handleSelectChange(value)} />
+                                            <Label style={styles.marginTop} >* means required</Label>
                                         </FormGroup>
                                     </Col>
                                 </Row>

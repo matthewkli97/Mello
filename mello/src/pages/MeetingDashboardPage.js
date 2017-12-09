@@ -5,6 +5,7 @@ import NoteChat from '../components/NoteChat'
 import Calendar from '../components/Calendar'
 import TaskList from '../components/TaskList'
 import TaskModal from '../components/TaskModal'
+import InviteModal from '../components/InviteModal'
 import ModalExample from '../components/ModalExample'
 
 import { RingLoader } from 'react-spinners';
@@ -59,6 +60,9 @@ export default class MeetingDashboardPage extends Component {
                         </div>
                         <div style={{margin: 15}}>
                             <ModalExample style={{ float: "right" }} buttonLabel={"Create Meeting"} currentUser={this.props.currentUser} />
+                        </div>
+                        <div style={{margin: 15}}>
+                            <InviteModal meeting={this.state.meeting} />
                         </div>
                     </Row>
                     <Row style={{ height: "95%" }}>

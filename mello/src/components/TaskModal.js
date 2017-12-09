@@ -148,7 +148,7 @@ export default class TaskModal extends Component {
                 <Button style={{display:"inline"}} color="primary" onClick={this.toggle}>{this.props.buttonLabel}</Button>
                 <Modal isOpen={this.state.modal} toggle={this.toggle} size='lg'>
                     <BlockUi tag="div" blocking={this.state.blocking}>
-                        <ModalHeader toggle={this.toggle}>Create Meeting:</ModalHeader>
+                        <ModalHeader toggle={this.toggle}>Create Task:</ModalHeader>
                         <ModalBody>
                             <Container>
                                 <Row>
@@ -162,18 +162,19 @@ export default class TaskModal extends Component {
                                     </Col>
                                     <Col xs={12} md={6}>
                                         <FormGroup>
-                                            <Label style={styles.marginTop} for="meetingTitle">Task Name:</Label>
+                                            <Label style={styles.marginTop} for="meetingTitle">Task Name: *</Label>
                                             <Input onChange={(e) => this.handleTitleChange(e)} name="meetingTitle" value={this.state.title} />
-                                            <Label style={styles.marginTop} for="exampleText">Task Requirements:</Label>
+                                            <Label style={styles.marginTop} for="exampleText">Task Requirements: *</Label>
                                             <DynamicInput callback={(value) => this.handleDynamicInput(value)} />
-                                            <Label style={styles.marginTop} for="exampleText">Priority:</Label>
+                                            <Label style={styles.marginTop} for="exampleText">Priority: *</Label>
                                             <div style={{display:"block"}}>
                                                 <Button color="primary" onClick={() => this.onRadioBtnClick(0)} active={this.state.rSelected === 0}>One</Button> {"  "}
                                                 <Button color="primary" onClick={() => this.onRadioBtnClick(1)} active={this.state.rSelected === 1}>Two</Button> {"  "}
                                                 <Button color="primary" onClick={() => this.onRadioBtnClick(2)} active={this.state.rSelected === 2}>Three</Button>
                                             </div>
-                                            <Label style={styles.marginTop} for="exampleSelectMulti">Deligate to:</Label>
+                                            <Label style={styles.marginTop} for="exampleSelectMulti">Deligate to: *</Label>
                                             <MultiSelect selected={this.state.selectedUsers} options={this.state.users} handleSelectChange={(value) => this.handleSelectChange(value)} />
+                                            <Label style={styles.marginTop} >* means required</Label>
                                         </FormGroup>
                                     </Col>
                                 </Row>
