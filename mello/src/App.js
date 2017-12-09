@@ -64,7 +64,7 @@ class App extends Component {
       <BrowserRouter basename={process.env.PUBLIC_URL + '/'}>
         <div style={styles.page}>
           <div style={{ position: "fixed", top: 0, left: 0, width: "100%", zIndex: 100 }}>
-            <nav class="navbar bg-dark" style={{ paddingLeft: "5%", paddingRight: "5%" }}>
+            <nav className="navbar bg-dark" style={{ paddingLeft: "5%", paddingRight: "5%" }}>
               <Link className="navbar-brand" style={{ color: "white" }} to='/'>Mello</Link>
             </nav>
           </div>

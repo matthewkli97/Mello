@@ -17,7 +17,8 @@ export default class MeetingList extends Component {
                     overflowY: "auto"
                 }
             }
-
+            // console.log(this.props.meetings);
+            
             let sortedMeetings = Object.keys(this.props.meetings).sort((a, b) => {
                 return this.props.meetings[a].date - this.props.meetings[b].date;
             })
@@ -25,8 +26,6 @@ export default class MeetingList extends Component {
             let meetingItems = sortedMeetings.map((id) => {
                 return <MeetingItem key={id} id={this.props.meetings[[id]].id} />
             });
-
-
 
             return (
                 <div style={styles.overFlow}>
@@ -67,11 +66,13 @@ class MeetingItem extends Component {
 
     getMembers() {
         let tempMembers = [];
+        if(this.state.meeting.members && this.state.meeting.members!=null){
         Object.keys(this.state.meeting.members).map((key) => {
             this.memberRef.child(this.state.meeting.members[key]).once("value", (snapshot) => {
                 tempMembers.push(snapshot.val());
             })
         });
+        }   
         return tempMembers;
     }
 

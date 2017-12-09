@@ -26,7 +26,6 @@ export default class UserDashboardPage extends Component {
 
             taskRef.on("value", (snapshot) => {
                 this.setState({ tasks: snapshot.val() });
-                this.gatherEvents();
             });
 
             this.setState({ loading: true })
@@ -34,48 +33,10 @@ export default class UserDashboardPage extends Component {
             this.memberRef = firebase.database().ref("members").child(this.props.currentUser.uid).child("permissions");
 
             this.memberRef.on("value", (snapshot) => {
+            
                 this.setState({ meetings: snapshot.val() });
-                this.gatherEvents();
             });
         }
-    }
-
-    gatherEvents() {
-
-        let events = [];
-
-        if (this.state.tasks && this.state.tasks != null) {
-            let taskIds = Object.keys(this.state.tasks);
-            taskIds.map((id) => {
-                let date = new Date(this.state.tasks[id].dueDate);
-                let endDate = new Date(date);
-                endDate.setDate(date.getDate() + 1);
-
-                events.push({
-                    'title': this.state.tasks[id].taskName,
-                    'start': date,
-                    'end': endDate,
-                    'allDay': true
-                })
-            })
-        }
-
-        if (this.state.meetings && this.state.meetings != null) {
-            let meetingIds = Object.keys(this.state.meetings);
-            meetingIds.map((id) => {
-                let date = new Date(this.state.meetings[id].date);
-                let endDate = new Date(date);
-                endDate.setHours(date.getHours() + 2);
-
-                events.push({
-                    'title': this.state.meetings[id].name,
-                    'start': date,
-                    'end': endDate,
-                })
-            })
-        }
-
-        this.setState({ events: events });
     }
 
     componentWillUnmount() {
@@ -91,6 +52,7 @@ export default class UserDashboardPage extends Component {
     }
 
     render() {
+        console.log(this.state);
         var color = '#4DAF7C';
 
         const styles = {
@@ -166,8 +128,8 @@ export default class UserDashboardPage extends Component {
                         </Col>
                     </Row>
                     <Row style={{ ...styles.row, ...styles.marginTop, ...styles.overFlow }}>
-                        <Col sm="12" md="6" style={{ height: 400 }}>
-                            <Calendar events={this.state.events} />
+                        <Col sm="12" md="6" style={{ height: 400}}>
+                            <Calendar currentUser={this.props.currentUser} />
                         </Col>
                         <Col sm="12" md="6">
                             <p className="h3 mt-2">Meetings:</p>

@@ -70,7 +70,7 @@ export default class MeetingDashboardPage extends Component {
                             </Row>
                             <Row style={{ height: "50%" }}>
                                 <Container style={{ height: "100%", width: "95%" }}>
-                                    <Calendar events={[]} />
+                                    <Calendar currentUser={this.props.currentUser} />
                                 </Container>
                             </Row>
                         </Col>
