@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import {Container,Row ,Col} from 'reactstrap';
 
-import NoteChat from '../components/NoteChat'
+import NotesContainer from '../components/NotesContainer'
 import Calendar from '../components/Calendar'
 import TaskList from '../components/TaskList'
 import TaskModal from '../components/TaskModal'
@@ -75,7 +75,8 @@ export default class MeetingDashboardPage extends Component {
                             </Row>
                         </Col>
                         <Col style={{height: "90%", maxHeight: "90%", overflowY: "auto" }} xs={6}>
-                            <NoteChat currentUser={this.props.currentUser} meetingId={this.props.match.params.meetingId} />
+                            {/* <NoteChat currentUser={this.props.currentUser} meetingId={this.props.match.params.meetingId} /> */}
+                            <NotesContainer currentUser={this.props.currentUser} meetingId={this.props.match.params.meetingId} />
                         </Col>
                     </Row>
                 </div>

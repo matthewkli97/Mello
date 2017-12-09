@@ -25,18 +25,31 @@ export default class NotesContainer extends Component {
         this.state = {
             isModalOpen: false,
             message: "",
-            selectedMessageId: undefined
+            selectedMessageId: undefined,
         };
     }
-  
+
+    componentDidMount() {
+        this.setState({ loading: true });
+
+        this.chatRef = firebase.database().ref("messages/" + this.props.meetingId);
+
+        this.chatRef.on('value', (snapshot) => {
+            this.setState({ messages: snapshot.val(), loading: false });
+        });
+    }
+
+    componentWillUnmount() {
+        this.chatRef.off();
+    }
+
     handleKeyPress = (event) => {
-        if (event.charCode == 13) {
+        if (event.charCode == 13 && !event.shiftKey) {
             event.preventDefault();
             event.stopPropagation();
 
-            this.props.dbRef.push({
-                // user: this.user.displayName
-                user: "Jenny Liang",
+            this.chatRef.push({
+                user: this.props.currentUser.displayName,
                 message: this.state.message,
                 time: firebase.database.ServerValue.TIMESTAMP,
                 edited: false
@@ -61,7 +74,7 @@ export default class NotesContainer extends Component {
     }
 
     delete = () => {
-        this.props.dbRef.child(this.state.selectedMessageId).remove()
+        this.chatRef.child(this.state.selectedMessageId).remove()
             .then(() => this.setState({ isModalOpen: !this.state.isModalOpen }));
     }
 
@@ -78,10 +91,11 @@ export default class NotesContainer extends Component {
                 width: "100%"
             },
             listGroup: {
-                height: "70vh",
+                height: "48vh",
                 overflow: "scroll"
             },
             navbar: {
+                height: "5vh",
                 margin: 0,
                 borderRadius: 0
             }
@@ -89,12 +103,14 @@ export default class NotesContainer extends Component {
 
         let noteItems = null;
 
-        if (this.props.messages !== undefined) {
-            noteItems = Object.keys(this.props.messages).map((note) => {
-                let tempNote = this.props.messages[note];
-                return <NoteItem dbRef={this.props.dbRef} key={note} noteId={note} note={tempNote} toggle={this.toggle} updateMsg={this.updateSelectedMessage} />;
+        if (this.state.messages !== undefined && this.state.messages !== null) {
+            noteItems = Object.keys(this.state.messages).map((note) => {
+                let tempNote = this.state.messages[note];
+                return <NoteItem dbRef={this.chatRef} key={note} noteId={note} note={tempNote} toggle={this.toggle} updateMsg={this.updateSelectedMessage} />;
             });
         }
+
+        console.log(this.state.messages);
 
         return (
             <div>
@@ -156,22 +172,20 @@ class NoteItem extends Component {
     }
 
     handleKeyPress = (event) => {
-        if (event.charCode == 13) {
-            if (!event.shiftKey) {
-                event.preventDefault();
-                event.stopPropagation();
-                this.props.dbRef.child(this.props.noteId)
-                    .set({ 
-                        edited: true, 
-                        message: event.target.value,
-                        time: this.props.note.time,
-                        user: this.props.note.user 
-                    })
-                    .then(() => {
-                        this.setState({ edit: false });
-                    })
-                    .catch((error) => console.log(error.message));
-            }
+        if (event.charCode == 13 && !event.shiftKey && event.target.value !== "") {
+            event.preventDefault();
+            event.stopPropagation();
+            this.props.dbRef.child(this.props.noteId)
+                .set({
+                    edited: true,
+                    message: event.target.value,
+                    time: this.props.note.time,
+                    user: this.props.note.user
+                })
+                .then(() => {
+                    this.setState({ edit: false });
+                })
+                .catch((error) => console.log(error.message));
         }
     }
 
@@ -179,14 +193,14 @@ class NoteItem extends Component {
         const styles = StyleSheet.create({
             container: {
                 width: "100%",
-            }, 
+            },
             smallText: {
                 fontWeight: "300"
             }
         });
         let moment = require('moment');
         let time = moment(this.props.note.time + "", "x").fromNow();
-      
+
         return (
             <ListGroupItem
                 tag="a"
@@ -283,7 +297,7 @@ class NoteContent extends Component {
 
         if (links != null) {
             links.forEach(link => {
-                let newLink = "<a href='"+ link + "' target='_blank'>"+ link +"</a>";
+                let newLink = "<a href='" + link + "' target='_blank'>" + link + "</a>";
                 content = content.replace(link, newLink);
             });
         }
@@ -294,12 +308,15 @@ class NoteContent extends Component {
         const styles = StyleSheet.create({
             textContent: {
                 height: "15vh"
-            }, 
+            },
             chatText: {
                 fontWeight: "300",
                 fontSize: "1.25em",
-                paddingBottom: "1em"
-            }
+                paddingBottom: "1em",
+                display: "inline",
+                width: "75%",
+                position: "relative"
+            },
         });
 
         let content = this.getHTMLCode();
@@ -314,9 +331,9 @@ class NoteContent extends Component {
                 onKeyPress={this.props.handleEnter}
                 onChange={this.handleChange}
             /> :
-            <div>
-                <Col sm={9} className={css(styles.chatText)} dangerouslySetInnerHTML={{__html: content}}></Col>
-                <Col sm={3}>
+            <div style={{ width: "100%" }}>
+                <div className={css(styles.chatText)} dangerouslySetInnerHTML={{ __html: content }}></div>
+                <div style={{ display: "inline", width: "25%", position: "relative" }}>
                     <Buttons
                         display={this.props.display}
                         handleEdit={this.props.handleEdit}
@@ -324,7 +341,7 @@ class NoteContent extends Component {
                         updateMsg={this.props.updateMsg}
                         noteId={this.props.noteId}
                     />
-                </Col>
+                </div>
             </div>;
         return (
             display
