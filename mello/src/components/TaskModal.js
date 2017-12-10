@@ -48,7 +48,6 @@ export default class TaskModal extends Component {
     componentWillReceiveProps(nextProps) {
         if (nextProps.showModal) {
             this.toggle();
-            // this.props.updatePage({ showModal: false });
         }
     }
 

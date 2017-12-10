@@ -106,7 +106,7 @@ export default class NotesContainer extends Component {
         if (this.state.messages !== undefined && this.state.messages !== null) {
             noteItems = Object.keys(this.state.messages).map((note) => {
                 let tempNote = this.state.messages[note];
-                return <NoteItem dbRef={this.chatRef} key={note} noteId={note} note={tempNote} toggle={this.toggle} updateMsg={this.updateSelectedMessage} toggleModal={this.props.toggleModal}/>;
+                return <NoteItem dbRef={this.chatRef} key={note} noteId={note} note={tempNote} toggle={this.toggle} updateMsg={this.updateSelectedMessage} toggleModal={this.props.toggleModal} currentUser={this.props.currentUser}/>;
             });
         }
 
@@ -198,6 +198,10 @@ class NoteItem extends Component {
         });
         let moment = require('moment');
         let time = moment(this.props.note.time + "", "x").fromNow();
+        let displayButtons = this.props.currentUser !== undefined && this.props.currentUser !== null;
+        if (displayButtons) {
+            displayButtons = this.props.currentUser.displayName === this.props.note.user;
+        }
 
         return (
             <ListGroupItem
@@ -221,6 +225,7 @@ class NoteItem extends Component {
                                     note={this.props.note}
                                     noteId={this.props.noteId}
                                     toggleModal={this.props.toggleModal}
+                                    displayButtons={displayButtons}
                                 />
                             </Row>
                             <small className={css(styles.smallText)}>
@@ -336,7 +341,7 @@ class NoteContent extends Component {
             /> :
             <div style={{ width: "100%" }}>
                 <Col xs={9} className={css(styles.chatText)} dangerouslySetInnerHTML={{ __html: content }}></Col>
-                <Col xs={3}>
+                {this.props.displayButtons && (<Col xs={3}>
                     <Buttons
                         display={this.props.display}
                         handleEdit={this.props.handleEdit}
@@ -345,7 +350,7 @@ class NoteContent extends Component {
                         noteId={this.props.noteId}
                         toggleModal={this.props.toggleModal}
                     />
-                </Col>
+                </Col>)}
             </div>;
         return (
             display
