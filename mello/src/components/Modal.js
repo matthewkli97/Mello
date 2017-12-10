@@ -218,3 +218,15 @@ export class Modal extends Component {
       }
     }
   }
+
+export class DeleteModal extends Component {
+    render() {
+        return (
+            <Modal isOpen={this.props.isModalOpen} onClose={() => this.props.toggle()}>
+                <h2>Are you sure you want to delete this post?</h2>
+                <p><Button id='close' onClick={() => this.props.toggle()}>Close</Button></p>
+                <p><Button id='delete' onClick={() => this.props.delete()}>Delete</Button></p>
+            </Modal>
+        );
+    }
+}

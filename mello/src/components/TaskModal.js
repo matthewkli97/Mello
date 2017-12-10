@@ -1,11 +1,10 @@
 /* eslint react/no-multi-comp: 0, react/prop-types: 0 */
 
 import React, { Component } from 'react';
-import { Button, ButtonGroup, Modal, ModalHeader, ModalBody, ModalFooter, FormGroup, Label, Input, Container, Row, Col } from 'reactstrap';
+import { Button, Modal, ModalHeader, ModalBody, ModalFooter, FormGroup, Label, Input, Container, Row, Col } from 'reactstrap';
 import moment from 'moment';
 import InfiniteCalendar from 'react-infinite-calendar';
 import 'react-infinite-calendar/styles.css'; // only needs to be imported once
-import { isValid } from 'date-fns';
 import BlockUi from 'react-block-ui';
 import 'react-block-ui/style.css';
 import DynamicInput from './DynamicInput'
@@ -45,20 +44,30 @@ export default class TaskModal extends Component {
         });
     }
 
+    componentWillReceiveProps(nextProps) {
+        if (nextProps.showModal) {
+            this.toggleWithTitle(nextProps.title);
+        }
+    }
+
     componentWillUnmount() {
         this.userRef.off();
     }
 
-    toggle() {
+    toggleWithTitle = (newTitle) => {
         this.setState({
             modal: !this.state.modal,
             description: "",
             time: "10:30",
-            title: "",
+            title: newTitle,
             blocking: false,
             selectedUsers: [],
             rSelected: null
         });
+    }
+
+    toggle() {
+        this.toggleWithTitle("");
     }
 
     createTask() {
@@ -96,6 +105,7 @@ export default class TaskModal extends Component {
             }
 
             this.toggle();
+            this.props.updatePage({ taskModal: false });
             this.toggleBlocking();
         }
     }
@@ -143,6 +153,8 @@ export default class TaskModal extends Component {
             }
         }
 
+        console.log(this.props.showModal);
+
         return (
             <div style={{ height: "90%" }}>
                 <Button style={{display:"inline"}} color="primary" onClick={this.toggle}>{this.props.buttonLabel}</Button>
@@ -172,7 +184,7 @@ export default class TaskModal extends Component {
                                                 <Button color="primary" onClick={() => this.onRadioBtnClick(1)} active={this.state.rSelected === 1}>Two</Button> {"  "}
                                                 <Button color="primary" onClick={() => this.onRadioBtnClick(2)} active={this.state.rSelected === 2}>Three</Button>
                                             </div>
-                                            <Label style={styles.marginTop} for="exampleSelectMulti">Deligate to: *</Label>
+                                            <Label style={styles.marginTop} for="exampleSelectMulti">Delegate to: *</Label>
                                             <MultiSelect selected={this.state.selectedUsers} options={this.state.users} handleSelectChange={(value) => this.handleSelectChange(value)} />
                                             <Label style={styles.marginTop} >* means required</Label>
                                         </FormGroup>

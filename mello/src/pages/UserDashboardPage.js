@@ -52,9 +52,6 @@ export default class UserDashboardPage extends Component {
     }
 
     render() {
-        console.log(this.state);
-        var color = '#4DAF7C';
-
         const styles = {
             row: {
                 minHeight: "50%",

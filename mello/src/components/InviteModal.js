@@ -1,7 +1,5 @@
 import React from 'react';
-import { Button, Modal, ModalHeader, ModalBody, ModalFooter, FormGroup, Label, Input, Container, Row, Col } from 'reactstrap';
-import moment from 'moment';
-import InfiniteCalendar from 'react-infinite-calendar';
+import { Button, Modal, ModalHeader, ModalBody, ModalFooter, FormGroup, Label } from 'reactstrap';
 import 'react-infinite-calendar/styles.css'; // only needs to be imported once
 import BlockUi from 'react-block-ui';
 import 'react-block-ui/style.css';
