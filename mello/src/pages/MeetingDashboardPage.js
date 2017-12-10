@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import {Container,Row ,Col} from 'reactstrap';
 
-import NoteChat from '../components/NoteChat'
+import NotesContainer from '../components/NotesContainer'
 import Calendar from '../components/Calendar'
 import TaskList from '../components/TaskList'
 import TaskModal from '../components/TaskModal'
@@ -34,6 +34,38 @@ export default class MeetingDashboardPage extends Component {
         this.meetingRef.off()
     }
 
+    updateMeetingDashboard = (state) => {
+        console.log(state, "THIS STATE ", this.state);
+        this.setState(state);
+    }
+
+    toggleTaskModal = (messageContent) => {
+        let newTitle = this.getTitle(messageContent);
+        this.setState({ 
+            taskModal: !this.state.taskModal, 
+            title: newTitle
+        });
+    }
+
+    getTitle = (str) => {
+        let headings = [];
+
+        for (let i = 1; i <= 6; i++) {
+            headings.push(str.indexOf("<h" + i + ">"));
+        }
+
+        for (let i = 0; i < 6; i++) {
+            if (headings[i] !== -1) {
+                return str.substring(
+                    str.indexOf("<h" + (i + 1) + ">") + 4, 
+                    str.indexOf("</h" + (i + 1) + ">")
+                );
+            }
+        }
+
+        return "";
+    }
+
     render() {
         const styles = {
             spinner: {
@@ -56,7 +88,14 @@ export default class MeetingDashboardPage extends Component {
                 <div style={{ height: "100%", padding: "5%" }}>
                     <Row>
                         <div style={{ margin: 15 }}>
-                            <TaskModal buttonLabel={"Create Task"} currentUser={this.props.currentUser} meetingId={this.props.match.params.meetingId} />
+                            <TaskModal
+                                buttonLabel={"Create Task"} 
+                                currentUser={this.props.currentUser} 
+                                meetingId={this.props.match.params.meetingId} 
+                                showModal={this.state.taskModal}
+                                updatePage={this.updateMeetingDashboard}
+                                title={this.state.title}
+                            />
                         </div>
                         <div style={{margin: 15}}>
                             <ModalExample style={{ float: "right" }} buttonLabel={"Create Meeting"} currentUser={this.props.currentUser} />
@@ -69,7 +108,7 @@ export default class MeetingDashboardPage extends Component {
                         <Col style={{ height: "100%" }} xs={6}>
                             <Row style={{ height: "50%" }}>
                                 <Container style={{ height: "95%" , overflowY:"auto"}}>
-                                    <TaskList currentUser={this.props.currentUser} tasks={this.state.meeting.tasks} />
+                                    <TaskList currentUser={this.props.currentUser} tasks={this.state.meeting.tasks} showModal={this.state.showModal} updatePage={this.updateMeetingDashboard}/>
                                 </Container>
                             </Row>
                             <Row style={{ height: "50%" }}>
@@ -78,8 +117,12 @@ export default class MeetingDashboardPage extends Component {
                                 </Container>
                             </Row>
                         </Col>
-                        <Col style={{height: "90%", maxHeight: "90%", overflowY: "auto" }} xs={6}>
-                            <NoteChat currentUser={this.props.currentUser} meetingId={this.props.match.params.meetingId} />
+                        <Col style={{height: "100%", maxHeight: "100%", overflowY: "auto" }} xs={6}>
+                            <NotesContainer 
+                                currentUser={this.props.currentUser} 
+                                meetingId={this.props.match.params.meetingId} 
+                                toggleModal={this.toggleTaskModal}
+                            />
                         </Col>
                     </Row>
                 </div>
