@@ -106,7 +106,7 @@ export default class NotesContainer extends Component {
         if (this.state.messages !== undefined && this.state.messages !== null) {
             noteItems = Object.keys(this.state.messages).map((note) => {
                 let tempNote = this.state.messages[note];
-                return <NoteItem dbRef={this.chatRef} key={note} noteId={note} note={tempNote} toggle={this.toggle} updateMsg={this.updateSelectedMessage} toggleModal={this.props.toggleModal} currentUser={this.props.currentUser}/>;
+                return <NoteItem dbRef={this.chatRef} key={note} noteId={note} note={tempNote} toggle={this.toggle} updateMsg={this.updateSelectedMessage} toggleModal={this.props.toggleModal} currentUser={this.props.currentUser} />;
             });
         }
 
@@ -263,20 +263,24 @@ class Buttons extends Component {
 
         return (
             <ButtonGroup size="sm" className={css(!this.props.display && styles.hide)}>
+                {this.props.displayButtons &&
+                    <ButtonGroup>
+                        <Button
+                            onClick={this.props.handleEdit}
+                            className={css(styles.hover)}
+                        >
+                            Edit
+                    </Button>
+                        <Button
+                            onClick={() => this.toggleFn(this.props.noteId)}
+                            className={css(styles.hover)}
+                        >
+                            Delete
+                    </Button>
+                    </ButtonGroup>
+                }
                 <Button
-                    onClick={this.props.handleEdit}
-                    className={css(styles.hover)}
-                >
-                    Edit
-                </Button>
-                <Button
-                    onClick={() => this.toggleFn(this.props.noteId)}
-                    className={css(styles.hover)}
-                >
-                    Delete
-                </Button>
-                <Button
-                    onClick={this.props.toggleModal}
+                    onClick={() => this.props.toggleModal(this.props.htmlCode)}
                     className={css(styles.hover)}
                 >
                     New Task
@@ -341,7 +345,7 @@ class NoteContent extends Component {
             /> :
             <div style={{ width: "100%" }}>
                 <Col xs={9} className={css(styles.chatText)} dangerouslySetInnerHTML={{ __html: content }}></Col>
-                {this.props.displayButtons && (<Col xs={3}>
+                <Col xs={3}>
                     <Buttons
                         display={this.props.display}
                         handleEdit={this.props.handleEdit}
@@ -349,8 +353,10 @@ class NoteContent extends Component {
                         updateMsg={this.props.updateMsg}
                         noteId={this.props.noteId}
                         toggleModal={this.props.toggleModal}
+                        htmlCode={content}
+                        displayButtons={this.props.displayButtons}
                     />
-                </Col>)}
+                </Col>
             </div>;
         return (
             display

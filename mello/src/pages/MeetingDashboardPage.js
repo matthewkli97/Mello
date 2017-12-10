@@ -33,12 +33,32 @@ export default class MeetingDashboardPage extends Component {
         this.meetingRef.off()
     }
 
-    toggleTaskModal = () => {
-        this.setState({ taskModal: !this.state.taskModal });
+    toggleTaskModal = (messageContent) => {
+        let newTitle = this.getTitle(messageContent);
+        console.log(newTitle);
+        this.setState({ 
+            taskModal: !this.state.taskModal, 
+            title: newTitle
+        });
     }
 
-    updatePage = (state) => {
-        this.setState(state);
+    getTitle = (str) => {
+        let headings = [];
+
+        for (let i = 1; i <= 6; i++) {
+            headings.push(str.indexOf("<h" + i + ">"));
+        }
+
+        for (let i = 0; i < 6; i++) {
+            if (headings[i] !== -1) {
+                return str.substring(
+                    str.indexOf("<h" + (i + 1) + ">") + 4, 
+                    str.indexOf("</h" + (i + 1) + ">")
+                );
+            }
+        }
+
+        return "";
     }
 
     render() {
@@ -69,6 +89,7 @@ export default class MeetingDashboardPage extends Component {
                                 meetingId={this.props.match.params.meetingId} 
                                 showModal={this.state.taskModal}
                                 updatePage={this.updatePage}
+                                title={this.state.title}
                             />
                         </div>
                         <div style={{margin: 15}}>

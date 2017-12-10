@@ -47,7 +47,7 @@ export default class TaskModal extends Component {
 
     componentWillReceiveProps(nextProps) {
         if (nextProps.showModal) {
-            this.toggle();
+            this.toggleWithTitle(nextProps.title);
         }
     }
 
@@ -55,16 +55,20 @@ export default class TaskModal extends Component {
         this.userRef.off();
     }
 
-    toggle() {
+    toggleWithTitle = (newTitle) => {
         this.setState({
             modal: !this.state.modal,
             description: "",
             time: "10:30",
-            title: "",
+            title: newTitle,
             blocking: false,
             selectedUsers: [],
             rSelected: null
         });
+    }
+
+    toggle() {
+        this.toggleWithTitle("");
     }
 
     createTask() {

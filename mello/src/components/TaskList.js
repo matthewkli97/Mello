@@ -118,9 +118,12 @@ class TaskItem extends Component {
             }
         }
 
-        let listItems = Object.keys(this.props.task.requirements).map((key, index) => {
-            return <li key={index}>{this.props.task.requirements[key]}</li>
-        })
+        let listItems;
+        if (this.props.task.requirements !== null && this.props.task.requirements !== undefined) {
+            listItems = Object.keys(this.props.task.requirements).map((key, index) => {
+                return <li key={index}>{this.props.task.requirements[key]}</li>
+            });
+        }
 
         return (
             <ListGroupItem tag="a" action>
