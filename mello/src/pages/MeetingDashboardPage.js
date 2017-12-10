@@ -34,6 +34,11 @@ export default class MeetingDashboardPage extends Component {
         this.meetingRef.off()
     }
 
+    updateMeetingDashboard = (state) => {
+        console.log(state, "THIS STATE ", this.state);
+        this.setState(state);
+    }
+
     toggleTaskModal = (messageContent) => {
         let newTitle = this.getTitle(messageContent);
         this.setState({ 
@@ -88,7 +93,7 @@ export default class MeetingDashboardPage extends Component {
                                 currentUser={this.props.currentUser} 
                                 meetingId={this.props.match.params.meetingId} 
                                 showModal={this.state.taskModal}
-                                updatePage={this.updatePage}
+                                updatePage={this.updateMeetingDashboard}
                                 title={this.state.title}
                             />
                         </div>
@@ -103,7 +108,7 @@ export default class MeetingDashboardPage extends Component {
                         <Col style={{ height: "100%" }} xs={6}>
                             <Row style={{ height: "50%" }}>
                                 <Container style={{ height: "95%" , overflowY:"auto"}}>
-                                    <TaskList currentUser={this.props.currentUser} tasks={this.state.meeting.tasks} />
+                                    <TaskList currentUser={this.props.currentUser} tasks={this.state.meeting.tasks} showModal={this.state.showModal} updatePage={this.updateMeetingDashboard}/>
                                 </Container>
                             </Row>
                             <Row style={{ height: "50%" }}>

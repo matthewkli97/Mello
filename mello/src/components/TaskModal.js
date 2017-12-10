@@ -105,6 +105,7 @@ export default class TaskModal extends Component {
             }
 
             this.toggle();
+            this.props.updatePage({ taskModal: false });
             this.toggleBlocking();
         }
     }
@@ -151,6 +152,8 @@ export default class TaskModal extends Component {
                 marginTop: 5
             }
         }
+
+        console.log(this.props.showModal);
 
         return (
             <div style={{ height: "90%" }}>
