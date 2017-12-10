@@ -45,6 +45,13 @@ export default class TaskModal extends Component {
         });
     }
 
+    componentWillReceiveProps(nextProps) {
+        if (nextProps.showModal) {
+            this.toggle();
+            // this.props.updatePage({ showModal: false });
+        }
+    }
+
     componentWillUnmount() {
         this.userRef.off();
     }
@@ -172,7 +179,7 @@ export default class TaskModal extends Component {
                                                 <Button color="primary" onClick={() => this.onRadioBtnClick(1)} active={this.state.rSelected === 1}>Two</Button> {"  "}
                                                 <Button color="primary" onClick={() => this.onRadioBtnClick(2)} active={this.state.rSelected === 2}>Three</Button>
                                             </div>
-                                            <Label style={styles.marginTop} for="exampleSelectMulti">Deligate to:</Label>
+                                            <Label style={styles.marginTop} for="exampleSelectMulti">Delegate to:</Label>
                                             <MultiSelect selected={this.state.selectedUsers} options={this.state.users} handleSelectChange={(value) => this.handleSelectChange(value)} />
                                         </FormGroup>
                                     </Col>

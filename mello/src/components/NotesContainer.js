@@ -106,11 +106,9 @@ export default class NotesContainer extends Component {
         if (this.state.messages !== undefined && this.state.messages !== null) {
             noteItems = Object.keys(this.state.messages).map((note) => {
                 let tempNote = this.state.messages[note];
-                return <NoteItem dbRef={this.chatRef} key={note} noteId={note} note={tempNote} toggle={this.toggle} updateMsg={this.updateSelectedMessage} />;
+                return <NoteItem dbRef={this.chatRef} key={note} noteId={note} note={tempNote} toggle={this.toggle} updateMsg={this.updateSelectedMessage} toggleModal={this.props.toggleModal}/>;
             });
         }
-
-        console.log(this.state.messages);
 
         return (
             <div>
@@ -222,6 +220,7 @@ class NoteItem extends Component {
                                     updateMsg={this.props.updateMsg}
                                     note={this.props.note}
                                     noteId={this.props.noteId}
+                                    toggleModal={this.props.toggleModal}
                                 />
                             </Row>
                             <small className={css(styles.smallText)}>
@@ -251,7 +250,8 @@ class Buttons extends Component {
             },
             hover: {
                 ":hover": {
-                    backgroundColor: "rgb(250,250,250)"
+                    backgroundColor: "rgb(250,250,250)",
+                    color: "black"
                 }
             }
         });
@@ -269,6 +269,12 @@ class Buttons extends Component {
                     className={css(styles.hover)}
                 >
                     Delete
+                </Button>
+                <Button
+                    onClick={this.props.toggleModal}
+                    className={css(styles.hover)}
+                >
+                    New Task
                 </Button>
             </ButtonGroup>
         );
@@ -313,9 +319,6 @@ class NoteContent extends Component {
                 fontWeight: "300",
                 fontSize: "1.25em",
                 paddingBottom: "1em",
-                display: "inline",
-                width: "75%",
-                position: "relative"
             },
         });
 
@@ -332,16 +335,17 @@ class NoteContent extends Component {
                 onChange={this.handleChange}
             /> :
             <div style={{ width: "100%" }}>
-                <div className={css(styles.chatText)} dangerouslySetInnerHTML={{ __html: content }}></div>
-                <div style={{ display: "inline", width: "25%", position: "relative" }}>
+                <Col xs={9} className={css(styles.chatText)} dangerouslySetInnerHTML={{ __html: content }}></Col>
+                <Col xs={3}>
                     <Buttons
                         display={this.props.display}
                         handleEdit={this.props.handleEdit}
                         toggle={this.props.toggle}
                         updateMsg={this.props.updateMsg}
                         noteId={this.props.noteId}
+                        toggleModal={this.props.toggleModal}
                     />
-                </div>
+                </Col>
             </div>;
         return (
             display

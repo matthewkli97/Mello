@@ -33,6 +33,14 @@ export default class MeetingDashboardPage extends Component {
         this.meetingRef.off()
     }
 
+    toggleTaskModal = () => {
+        this.setState({ taskModal: !this.state.taskModal });
+    }
+
+    updatePage = (state) => {
+        this.setState(state);
+    }
+
     render() {
         const styles = {
             spinner: {
@@ -55,7 +63,13 @@ export default class MeetingDashboardPage extends Component {
                 <div style={{ height: "100%", padding: "5%" }}>
                     <Row>
                         <div style={{ margin: 15 }}>
-                            <TaskModal buttonLabel={"Create Task"} currentUser={this.props.currentUser} meetingId={this.props.match.params.meetingId} />
+                            <TaskModal
+                                buttonLabel={"Create Task"} 
+                                currentUser={this.props.currentUser} 
+                                meetingId={this.props.match.params.meetingId} 
+                                showModal={this.state.taskModal}
+                                updatePage={this.updatePage}
+                            />
                         </div>
                         <div style={{margin: 15}}>
                             <ModalExample style={{ float: "right" }} buttonLabel={"Create Meeting"} currentUser={this.props.currentUser} />
@@ -75,8 +89,11 @@ export default class MeetingDashboardPage extends Component {
                             </Row>
                         </Col>
                         <Col style={{height: "90%", maxHeight: "90%", overflowY: "auto" }} xs={6}>
-                            {/* <NoteChat currentUser={this.props.currentUser} meetingId={this.props.match.params.meetingId} /> */}
-                            <NotesContainer currentUser={this.props.currentUser} meetingId={this.props.match.params.meetingId} />
+                            <NotesContainer 
+                                currentUser={this.props.currentUser} 
+                                meetingId={this.props.match.params.meetingId} 
+                                toggleModal={this.toggleTaskModal}
+                            />
                         </Col>
                     </Row>
                 </div>
