@@ -12,7 +12,8 @@ class App extends Component {
     super(props);
 
     this.state = {
-      user: firebase.auth().currentUser
+      user: firebase.auth().currentUser,
+      loading : true
     }
   }
 
@@ -21,6 +22,7 @@ class App extends Component {
       if (firebaseUser) {
         this.setState({ user: firebaseUser });
         firebase.database().ref("members").child(firebaseUser.uid).child("displayName").set(firebaseUser.displayName);
+        this.setState({loading : false})
       } else {
         this.setState({ user: null });
       }
@@ -77,7 +79,7 @@ class App extends Component {
             </Switch>
           }
           {
-            this.state.user === null &&
+            this.state.user === null && this.state.loading==false &&
             <Switch>
               <Route exact path='/login' component={renderLoginPage} />
               <Route exact path='/signup' component={renderSignupPage} />

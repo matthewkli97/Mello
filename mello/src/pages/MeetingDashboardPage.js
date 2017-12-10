@@ -18,18 +18,36 @@ export default class MeetingDashboardPage extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            meeting: {}
+            meeting: {},
+            isMember : true
         }
     }
 
-    componentDidMount() {
-        this.meetingRef = firebase.database().ref("meetings").child(this.props.match.params.meetingId);
+    // componentDidMount() {
+    // }
 
-        this.meetingRef.on("value", (snapshot) => {
-            this.setState({ meeting: snapshot.val() });
-        });
+    checkMember(members){
+        if(members!=null){
+            members.forEach((member)=>{
+                if(member === this.props.currentUser){
+                    return true;
+                };
+            })
+        }
+        return false
     }
 
+    componentWillMount(){
+          // if(this.state.)
+          this.meetingRef = firebase.database().ref("meetings").child(this.props.match.params.meetingId);
+          this.meetingRef.on("value", (snapshot) => {
+              console.log(snapshot.val());      
+              this.setState({ meeting: snapshot.val() });
+          });
+          // this.staet.lo
+        //   this.setState({isMember:this.checkMember(this.state.meeting.members)});
+  
+    }
     componentWillUnmount() {
         this.meetingRef.off()
     }
@@ -51,7 +69,7 @@ export default class MeetingDashboardPage extends Component {
             }
         }
 
-        if (this.props.currentUser) {
+        if (this.props.currentUser && this.state.isMember==true) {
             return (
                 <div style={{ height: "100%", padding: "5%" }}>
                     <Row>
