@@ -36,7 +36,6 @@ export default class MeetingDashboardPage extends Component {
 
     toggleTaskModal = (messageContent) => {
         let newTitle = this.getTitle(messageContent);
-        console.log(newTitle);
         this.setState({ 
             taskModal: !this.state.taskModal, 
             title: newTitle
@@ -113,7 +112,7 @@ export default class MeetingDashboardPage extends Component {
                                 </Container>
                             </Row>
                         </Col>
-                        <Col style={{height: "90%", maxHeight: "90%", overflowY: "auto" }} xs={6}>
+                        <Col style={{height: "100%", maxHeight: "100%", overflowY: "auto" }} xs={6}>
                             <NotesContainer 
                                 currentUser={this.props.currentUser} 
                                 meetingId={this.props.match.params.meetingId} 

@@ -1,11 +1,10 @@
 /* eslint react/no-multi-comp: 0, react/prop-types: 0 */
 
 import React, { Component } from 'react';
-import { Button, ButtonGroup, Modal, ModalHeader, ModalBody, ModalFooter, FormGroup, Label, Input, Container, Row, Col } from 'reactstrap';
+import { Button, Modal, ModalHeader, ModalBody, ModalFooter, FormGroup, Label, Input, Container, Row, Col } from 'reactstrap';
 import moment from 'moment';
 import InfiniteCalendar from 'react-infinite-calendar';
 import 'react-infinite-calendar/styles.css'; // only needs to be imported once
-import { isValid } from 'date-fns';
 import BlockUi from 'react-block-ui';
 import 'react-block-ui/style.css';
 import DynamicInput from './DynamicInput'

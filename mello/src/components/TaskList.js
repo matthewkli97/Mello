@@ -24,7 +24,6 @@ export default class TaskList extends Component {
             }
 
             items.sort((a, b) => {
-                console.log(order[this.props.tasks[a].progress])
                 if (order[this.props.tasks[a].progress] < order[this.props.tasks[b].progress]) {
                     return -1;
                 } else if (order[this.props.tasks[a].progress] > order[this.props.tasks[b].progress]) {
