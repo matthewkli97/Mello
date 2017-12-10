@@ -17,7 +17,6 @@ export default class MeetingList extends Component {
                     overflowY: "auto"
                 }
             }
-            // console.log(this.props.meetings);
             
             let sortedMeetings = Object.keys(this.props.meetings).sort((a, b) => {
                 return this.props.meetings[a].date - this.props.meetings[b].date;

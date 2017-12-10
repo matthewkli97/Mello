@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import {Container,Row ,Col} from 'reactstrap';
-
+import { Route, Redirect } from 'react-router'
 import NotesContainer from '../components/NotesContainer'
 import Calendar from '../components/Calendar'
 import TaskList from '../components/TaskList'
@@ -19,41 +19,37 @@ export default class MeetingDashboardPage extends Component {
         super(props);
         this.state = {
             meeting: {},
-            isMember : true
+            isMember : false,
+            loading:true
         }
     }
 
-    // componentDidMount() {
-    // }
+    componentDidMount() {
+        this.meetingRef = firebase.database().ref("meetings").child(this.props.match.params.meetingId);
+        this.meetingRef.on("value", (snapshot) => {
+            this.setState({ meeting: snapshot.val() });
+            this.checkMember(snapshot.val().members);
+        })
+      
+
+    }
 
     checkMember(members){
-        if(members!=null){
-            members.forEach((member)=>{
-                if(member === this.props.currentUser){
-                    return true;
-                };
-            })
-        }
-        return false
+        var BreakException = {};
+        members.forEach((member)=>{
+            if(member.localeCompare(this.props.currentUser.uid)===0){
+                this.setState({isMember:true})
+                throw BreakException;
+            };
+        })      
+        this.setState({loading:false})
     }
 
-    componentWillMount(){
-          // if(this.state.)
-          this.meetingRef = firebase.database().ref("meetings").child(this.props.match.params.meetingId);
-          this.meetingRef.on("value", (snapshot) => {
-              console.log(snapshot.val());      
-              this.setState({ meeting: snapshot.val() });
-          });
-          // this.staet.lo
-        //   this.setState({isMember:this.checkMember(this.state.meeting.members)});
-  
-    }
     componentWillUnmount() {
         this.meetingRef.off()
     }
 
     updateMeetingDashboard = (state) => {
-        console.log(state, "THIS STATE ", this.state);
         this.setState(state);
     }
 
@@ -61,7 +57,7 @@ export default class MeetingDashboardPage extends Component {
         let newTitle = this.getTitle(messageContent);
         this.setState({ 
             taskModal: !this.state.taskModal, 
-            title: newTitle
+            title: newTitle,
         });
     }
 
@@ -148,13 +144,19 @@ export default class MeetingDashboardPage extends Component {
             );
         } else {
             return (
-                <Container style={styles.spinner}>
-                    <RingLoader
-                        size={100}
-                        color={'#123abc'}
-                        loading={true}
-                    />
-                </Container>
+                <div>
+                {this.state.loading? 
+                    (<Container style={styles.spinner}>
+                        <RingLoader
+                            size={100}
+                            color={'#123abc'}
+                            loading={true}
+                         />
+                    </Container>):
+                (<Redirect to="/welcome"/>)}
+                </div>
+                
+                
             );
         }
     }
