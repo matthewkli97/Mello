@@ -199,6 +199,8 @@ class NoteContent extends Component {
         let content = this.getHTMLCode();
 
         let display = this.props.edit ?
+            <div>
+            <label for="takeNotes" className="visuallyhidden">Enter a Message </label>
             <Input
                 className={css(styles.textContent)}
 
@@ -207,7 +209,9 @@ class NoteContent extends Component {
                 value={this.state.messageContent}
                 onKeyPress={this.props.handleEnter}
                 onChange={this.handleChange}
-            /> :
+                aria-labelledby="Enter a Message"
+                aria-live="polite"
+            /> </div> :
             <div style={{ width: "100%" }}>
                 <Col xs={9} className={css(styles.chatText)} dangerouslySetInnerHTML={{ __html: content }}></Col>
                 <Col xs={3}>

@@ -125,7 +125,7 @@ class TaskItem extends Component {
         }
 
         return (
-            <ListGroupItem tag="a" action>
+            <ListGroupItem tag="a" action aria-live="polite">
                 <Row>
                     <Col>
                         <Button color={progressColor[this.props.task.progress]} onClick={() => this.changeProgress()}

@@ -109,6 +109,7 @@ export default class NotesContainer extends Component {
                     {noteItems}
                 </ListGroup>
                 <Container className={css(styles.textarea)}>
+                <label for="takeNotes" className="visuallyhidden">Enter a Message</label>
                     <Input
                         placeholder="Enter a message..."
                         type="textarea"
@@ -116,6 +117,8 @@ export default class NotesContainer extends Component {
                         onChange={this.handleOnChange}
                         onKeyPress={this.handleKeyPress}
                         className={css(styles.textarea)}
+                        aria-labelledby="Enter a Message"
+                        aria-live="polite"
                     />
                 </Container>
                 <DeleteModal

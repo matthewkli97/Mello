@@ -121,16 +121,16 @@ export default class UserDashboardPage extends Component {
                     <Row style={{ ...styles.row, ...styles.marginTop, ...styles.overFlow }}>
                         <Col xs="12">
                             <p className="h3 mt-2">Tasks</p>
-                            <TaskList currentUser={this.props.currentUser} tasks={this.state.tasks} />
+                            <TaskList  aria-live="polite" currentUser={this.props.currentUser} tasks={this.state.tasks} />
                         </Col>
                     </Row>
                     <Row style={{ ...styles.row, ...styles.marginTop, ...styles.overFlow }}>
                         <Col sm="12" md="6" style={{ height: 400}}>
-                            <Calendar currentUser={this.props.currentUser} />
+                            <Calendar  aria-live="polite" currentUser={this.props.currentUser} />
                         </Col>
                         <Col sm="12" md="6">
                             <p className="h3 mt-2">Meetings:</p>
-                            <MeetingList currentUser={this.props.currentUser} meetings={this.state.meetings} />
+                            <MeetingList  aria-live="polite" currentUser={this.props.currentUser} meetings={this.state.meetings} />
                         </Col>
                     </Row>
                 </Container >

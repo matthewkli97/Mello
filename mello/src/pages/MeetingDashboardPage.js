@@ -122,12 +122,12 @@ export default class MeetingDashboardPage extends Component {
                         <Col style={{ height: "100%" }} xs={6}>
                             <Row style={{ height: "50%" }}>
                                 <Container style={{ height: "95%" , overflowY:"auto"}}>
-                                    <TaskList currentUser={this.props.currentUser} tasks={this.state.meeting.tasks} showModal={this.state.showModal} updatePage={this.updateMeetingDashboard}/>
+                                    <TaskList aria-live="polite" currentUser={this.props.currentUser} tasks={this.state.meeting.tasks} showModal={this.state.showModal} updatePage={this.updateMeetingDashboard}/>
                                 </Container>
                             </Row>
                             <Row style={{ height: "50%" }}>
                                 <Container style={{ height: "100%", width: "95%" }}>
-                                    <Calendar currentUser={this.props.currentUser} />
+                                    <Calendar aria-live="polite" currentUser={this.props.currentUser} />
                                 </Container>
                             </Row>
                         </Col>
