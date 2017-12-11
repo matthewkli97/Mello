@@ -16,6 +16,7 @@ export default class LoginPage extends Component {
                 marginTop: 100
             },
             container : {
+                paddingTop: 100,
                 textAlign: "center"
             }
         }
@@ -23,13 +24,13 @@ export default class LoginPage extends Component {
         //if (this.props.currentUser === null) {
             return (
                 <Container style={styles.container}>
-                    {this.props.newAccount && 
+                    {!this.props.newAccount && 
                     <div>
-                        <h1>Hey! Join the conversation!</h1>
+                        <h1>Hey! Join the meeting!</h1>
                         <h2>Let's get you logged in...</h2>
                     </div>
                     } 
-                    {!this.props.newAccount &&
+                    {this.props.newAccount &&
 
                     <h1>Let's make you an account!</h1>
                     }
