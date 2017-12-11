@@ -30,8 +30,6 @@ export default class MeetingDashboardPage extends Component {
             this.setState({ meeting: snapshot.val() });
             this.checkMember(snapshot.val().members);
         })
-
-
     }
 
     checkMember(members) {
@@ -97,7 +95,7 @@ export default class MeetingDashboardPage extends Component {
             }
         }
 
-        if (this.props.currentUser && this.state.isMember === true) {
+        if (this.props.currentUser != null && this.state.isMember === true) {
             return (
                 <div style={{ height: "100%", padding: "5%" }}>
                     <Row style={{ height: "95%" }}>

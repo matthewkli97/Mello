@@ -12,7 +12,7 @@ class App extends Component {
     super(props);
 
     this.state = {
-      user: firebase.auth().currentUser,
+      user: null,
       loading : true
     }
   }
@@ -25,9 +25,8 @@ class App extends Component {
       } else {
         this.setState({ user: null });
       }
+      this.setState({loading : false})
     });
-
-    this.setState({loading : false})
   }
   // Sign out handle to log user out of application
   handleSignOut() {
