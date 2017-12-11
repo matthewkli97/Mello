@@ -57,13 +57,18 @@ class TaskItem extends Component {
         super(props);
         this.state = {
             collapse: false,
-            taskStatus: 1
+            taskStatus: 1,
+            assignedTo: null
         };
     }
 
     componentDidMount() {
         this.taskRef = firebase.database().ref("tasks").child(this.props.task.assignedTo).child(this.props.task.userTaskId);
         this.meetingTaskRef = firebase.database().ref("meetings").child(this.props.task.meetingId).child("tasks").child(this.props.task.meetingTaskId);
+
+        firebase.database().ref("members").child(this.props.task.assignedTo).once('value', (snapshot) => {
+            this.setState({assignedTo: snapshot.val()});
+        })
     }
 
     componentWillUnmount() {
@@ -150,7 +155,12 @@ class TaskItem extends Component {
                     >
                         <Card>
                             <CardBody>
-                                Subtasks
+                                <p><strong>Assigned to: </strong>
+                                { this.state.assignedTo != null &&
+                                    this.state.assignedTo.displayName
+                                }
+                                </p>
+                                <p><strong>Subtasks: </strong></p>
                                 <ol>
                                     {listItems}
                                 </ol>

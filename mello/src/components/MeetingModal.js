@@ -12,7 +12,7 @@ import MultiSelect from './MultiSelect'
 
 import firebase from 'firebase/app';
 
-class ModalExample extends React.Component {
+class MeetingModal extends React.Component {
 
     constructor(props) {
         super(props);
@@ -158,7 +158,7 @@ class ModalExample extends React.Component {
                                             <Input onChange={(e) => this.handleDescriptionChange(e)} value={this.state.description} type="textarea" rows={6} name="text" id="exampleText" />
                                             <Label style={styles.marginTop} for="exampleSelectMulti">Select Attendees</Label>
                                             <MultiSelect selected={this.state.selectedUsers} options={this.state.users} handleSelectChange={(value) => this.handleSelectChange(value)} />
-                                            <Label style={styles.marginTop} >* means required</Label>
+                                            <Label style={styles.marginTop} >* required</Label>
                                         </FormGroup>
                                     </Col>
                                 </Row>
@@ -175,4 +175,4 @@ class ModalExample extends React.Component {
     }
 }
 
-export default ModalExample;
+export default MeetingModal;

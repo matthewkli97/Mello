@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import firebase from 'firebase/app';
 import { Container, Col, Row, Button } from 'reactstrap';
 import TaskList from '../components/TaskList';
-import ModalExample from '../components/ModalExample.js';
+import  MeetingModal from '../components/MeetingModal.js';
 import Calendar from '../components/Calendar'
 import { RingLoader } from 'react-spinners';
 
@@ -100,7 +100,7 @@ export default class UserDashboardPage extends Component {
                         <Col>
                             <div className="pull-right" style={{ display: "inline-block" }}>
                                 <Row>
-                                    <ModalExample style={{ display: "inline" }} buttonLabel={"Create Meeting"} currentUser={this.props.currentUser} />
+                                    <MeetingModal style={{ display: "inline" }} buttonLabel={"Create Meeting"} currentUser={this.props.currentUser} />
                                     <Button style={{ display: "inline", marginLeft:10}} color="secondary" onClick={() => this.props.signoutHandle()}>Sign Out</Button>
                                 </Row>
                             </div>
