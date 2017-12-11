@@ -22,11 +22,12 @@ class App extends Component {
       if (firebaseUser) {
         this.setState({ user: firebaseUser });
         firebase.database().ref("members").child(firebaseUser.uid).child("displayName").set(firebaseUser.displayName);
-        this.setState({loading : false})
       } else {
         this.setState({ user: null });
       }
     });
+
+    this.setState({loading : false})
   }
   // Sign out handle to log user out of application
   handleSignOut() {
@@ -79,7 +80,7 @@ class App extends Component {
             </Switch>
           }
           {
-            this.state.user === null && this.state.loading===false &&
+            this.state.user === null && this.state.loading === false &&
             <Switch>
               <Route exact path='/login' component={renderLoginPage} />
               <Route exact path='/signup' component={renderSignupPage} />
