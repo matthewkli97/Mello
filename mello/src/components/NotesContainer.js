@@ -82,7 +82,7 @@ export default class NotesContainer extends Component {
             },
             listGroup: {
                 height: "55vh",
-                overflow: "scroll"
+                overflowY: "scroll"
             },
             navbar: {
                 height: "5vh",

@@ -185,7 +185,7 @@ export default class TaskModal extends Component {
                                             </div>
                                             <Label style={styles.marginTop} for="exampleSelectMulti">Delegate to: *</Label>
                                             <MultiSelect selected={this.state.selectedUsers} options={this.state.users} handleSelectChange={(value) => this.handleSelectChange(value)} />
-                                            <Label style={styles.marginTop} >* means required</Label>
+                                            <Label style={styles.marginTop} >* required</Label>
                                         </FormGroup>
                                     </Col>
                                 </Row>

@@ -76,7 +76,7 @@ export default class Calendar extends Component {
 
     render() {
         return (
-            <div style={{ width: "100%", maxHeight: "100%",  overflowY:"auto"  }}>
+            <div style={{ width: "100%", maxHeight: "100%", overflowY:"auto"  }}>
                 <BigCalendar style={{ width: "100%", height: "100%"}}
                     {...this.props}
                     events={this.state.events}
