@@ -121,13 +121,8 @@ export default class MeetingDashboardPage extends Component {
                                 </div>
                             </Row>
                             <Row style={{ height: "50%" }}>
-<<<<<<< HEAD
                                 <Container style={{ height: "95%" , overflowY:"auto"}}>
                                     <TaskList aria-live="polite" currentUser={this.props.currentUser} tasks={this.state.meeting.tasks} showModal={this.state.showModal} updatePage={this.updateMeetingDashboard}/>
-=======
-                                <Container style={{ height: "95%", overflowY: "auto" }}>
-                                    <TaskList currentUser={this.props.currentUser} tasks={this.state.meeting.tasks} showModal={this.state.showModal} updatePage={this.updateMeetingDashboard} />
->>>>>>> dbf19e170985df37732afb5f9b5d232056169cc9
                                 </Container>
                             </Row>
                             <Row style={{ height: "50%" }}>
