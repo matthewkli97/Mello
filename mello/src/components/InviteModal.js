@@ -56,16 +56,16 @@ export default class InviteModal extends React.Component {
 
             var ref = firebase.database().ref("meetings");
             // this new, empty ref only exists locally
-            var newChildRef = ref;
-            // we can get its id using key()
-            newChildRef.update(newMeeting)
+            var newChildRef = ref.child(this.props.meetingId);
 
-            newMeeting.id = newChildRef.key;
+            // we can get its id using key()
+            newChildRef.set(newMeeting);
+
+            newMeeting.id = this.props.meetingId;
 
             for (let i = 0; i < userArray.length; i++) {
                 if (userArray[i].length > 0) {
-                    firebase.database().ref("members").child(userArray[i]).child("permissions")
-                    .push({name: newMeeting.meetingName, date: newMeeting.date, id: newMeeting.id});
+                    firebase.database().ref("members").child(userArray[i]).child("permissions").child(this.props.meetingId).set({name: newMeeting.meetingName, date: newMeeting.date, id: newMeeting.id});
                 }
             }
 
@@ -109,7 +109,7 @@ export default class InviteModal extends React.Component {
                             </FormGroup>
                         </ModalBody>
                         <ModalFooter>
-                            <Button color="primary" onClick={() => this.editMeeting()}>Finish</Button>{' '}
+                            <Button color="primary" onClick={() => this.editMeeting()}>Update</Button>{' '}
                             <Button color="secondary" onClick={this.toggle}>Cancel</Button>
                         </ModalFooter>
                     </BlockUi>

@@ -115,7 +115,7 @@ export default class MeetingDashboardPage extends Component {
                                     <MeetingModal style={{ float: "right" }} buttonLabel={"Create Meeting"} currentUser={this.props.currentUser} />
                                 </div>
                                 <div style={{ margin: 15 }}>
-                                    <InviteModal meeting={this.state.meeting} />
+                                    <InviteModal meeting={this.state.meeting} meetingId={this.props.match.params.meetingId}/>
                                 </div>
                             </Row>
                             <Row style={{ height: "50%" }}>
