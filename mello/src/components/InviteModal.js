@@ -3,9 +3,7 @@ import { Button, Modal, ModalHeader, ModalBody, ModalFooter, FormGroup, Label } 
 import 'react-infinite-calendar/styles.css'; // only needs to be imported once
 import BlockUi from 'react-block-ui';
 import 'react-block-ui/style.css';
-
 import MultiSelect from './MultiSelect'
-
 import firebase from 'firebase/app';
 
 export default class InviteModal extends React.Component {

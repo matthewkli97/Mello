@@ -1,7 +1,6 @@
 import BigCalendar from 'react-big-calendar';
 import moment from 'moment';
 import 'react-big-calendar/lib/css/react-big-calendar.css';
-
 import firebase from 'firebase/app';
 import React, { Component } from 'react';
 
@@ -19,22 +18,22 @@ export default class Calendar extends Component {
 
     componentDidMount() {
         if (this.props.currentUser) {
-            let taskRef = firebase.database().ref("tasks").child(this.props.currentUser.uid);
+            this.taskRef = firebase.database().ref("tasks").child(this.props.currentUser.uid);
 
-            taskRef.on("value", (snapshot) => {
+            this.taskRef.on("value", (snapshot) => {
                 this.setState({ tasks: snapshot.val() });
                 this.gatherEvents();
             });
 
 
             this.memberRef = firebase.database().ref("members").child(this.props.currentUser.uid).child("permissions");
-
             this.memberRef.on("value", (snapshot) => {
                 this.setState({ meetings: snapshot.val() });
                 this.gatherEvents();
             });
         }
     }
+
     gatherEvents() {
         let events = [];
         if (this.state.tasks && this.state.tasks != null) {
@@ -67,20 +66,15 @@ export default class Calendar extends Component {
                 })
             })
         }
-
         this.setState({ events: events });
     }
 
     componentWillUnmount() {
-        if (this.props.currentUser) {
-            this.memberRef.off();
-        }
+        this.memberRef.off();
+        this.taskRef.off();
     }
 
-
-
     render() {
-
         return (
             <div style={{ width: "100%", maxHeight: "100%",  overflowY:"auto"  }}>
                 <BigCalendar style={{ width: "100%", height: "100%"}}

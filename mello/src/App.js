@@ -79,7 +79,7 @@ class App extends Component {
             </Switch>
           }
           {
-            this.state.user === null && this.state.loading==false &&
+            this.state.user === null && this.state.loading===false &&
             <Switch>
               <Route exact path='/login' component={renderLoginPage} />
               <Route exact path='/signup' component={renderSignupPage} />

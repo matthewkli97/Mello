@@ -94,7 +94,6 @@ export class TaskModal extends Component {
     let newState = {};
     newState[e.target.name] = e.target.value;
     this.setState(newState);
-    console.log(e.target.value);
   }
   
   componentWillMount() {
@@ -115,7 +114,6 @@ export class TaskModal extends Component {
   }
 
   optionChange(member) {
-    console.log('here');
     this.setState({memberAssignedTo: member.userId});
   }
   render() {

@@ -35,7 +35,7 @@ export default class NoteItem extends Component {
     }
 
     handleKeyPress = (event) => {
-        if (event.charCode == 13 && !event.shiftKey && event.target.value !== "") {
+        if (event.charCode === 13 && !event.shiftKey && event.target.value !== "") {
             event.preventDefault();
             event.stopPropagation();
             this.props.dbRef.child(this.props.noteId)
@@ -172,7 +172,7 @@ class NoteContent extends Component {
         let md = new Remarkable();
         let content = md.render(this.props.note.message);
 
-        let regex = /https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,4}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/g;
+        let regex = /https?:\/\/(www\.)?[-a-zA-Z0-9@:%._~#=]{2,256}\.[a-z]{2,4}\b([-a-zA-Z0-9@:%_.~#?&//=]*)/g;
         let links = content.match(regex);
 
         if (links != null) {

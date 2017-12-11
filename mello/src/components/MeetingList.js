@@ -82,6 +82,7 @@ class MeetingItem extends Component {
     componentWillUnmount() {
         this.meetingRef.off();
     }
+    
     render() {
         if (this.state.meeting) {
             let memberNames = this.getMembers();
@@ -91,7 +92,7 @@ class MeetingItem extends Component {
             })
 
             return (
-                <ListGroupItem tag="a" action onClick={() => this.toggle()}>
+                <ListGroupItem action onClick={() => this.toggle()}>
                     <Row style={{ marginTop: 10 }} onClick={() => this.toggle()}>
                         <Col xs={6}>
                             <ListGroupItemHeading>{this.state.meeting.meetingName}</ListGroupItemHeading>

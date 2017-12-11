@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import {Container,Row ,Col} from 'reactstrap';
-import { Route, Redirect } from 'react-router'
+import {Redirect } from 'react-router'
 import NotesContainer from '../components/NotesContainer'
 import Calendar from '../components/Calendar'
 import TaskList from '../components/TaskList'
@@ -97,7 +97,7 @@ export default class MeetingDashboardPage extends Component {
             }
         }
 
-        if (this.props.currentUser && this.state.isMember==true) {
+        if (this.props.currentUser && this.state.isMember===true) {
             return (
                 <div style={{ height: "100%", padding: "5%" }}>
                     <Row>
@@ -155,8 +155,6 @@ export default class MeetingDashboardPage extends Component {
                     </Container>):
                 (<Redirect to="/welcome"/>)}
                 </div>
-                
-                
             );
         }
     }

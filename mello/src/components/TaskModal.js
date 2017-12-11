@@ -153,7 +153,6 @@ export default class TaskModal extends Component {
             }
         }
 
-        console.log(this.props.showModal);
 
         return (
             <div style={{ height: "90%" }}>

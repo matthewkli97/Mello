@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { StyleSheet, css } from 'aphrodite';
 import { DeleteModal } from "./Modal";
 import NoteItem from "./NoteItem";
-import { Container, ListGroup, Navbar, Input,} from 'reactstrap';
+import { Container, ListGroup, Navbar, Input,NavbarBrand} from 'reactstrap';
 
 import firebase from 'firebase/app';
 import 'firebase/database';
@@ -32,7 +32,7 @@ export default class NotesContainer extends Component {
     }
 
     handleKeyPress = (event) => {
-        if (event.charCode == 13 && !event.shiftKey) {
+        if (event.charCode === 13 && !event.shiftKey) {
             event.preventDefault();
             event.stopPropagation();
 
@@ -102,7 +102,9 @@ export default class NotesContainer extends Component {
 
         return (
             <div styles={{height: "100%"}}>
-                <Navbar color="primary" className={css(styles.navbar)} />
+                <Navbar color="primary" className={css(styles.navbar)}>
+                <NavbarBrand className="mr-auto" style={{color:"white"}}>Note</NavbarBrand>
+                </Navbar>
                 <ListGroup className={css(styles.listGroup)}>
                     {noteItems}
                 </ListGroup>
