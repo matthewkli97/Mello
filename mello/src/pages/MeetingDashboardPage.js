@@ -129,7 +129,7 @@ export default class MeetingDashboardPage extends Component {
                                 </Container>
                             </Row>
                         </Col>
-                        <Col style={{ height: "100%", maxHeight: "100%", overflowY: "auto" }} xs={6}>
+                        <Col style={{ height: "100%"}} xs={6}>
                             <NotesContainer
                                 currentUser={this.props.currentUser}
                                 meetingId={this.props.match.params.meetingId}

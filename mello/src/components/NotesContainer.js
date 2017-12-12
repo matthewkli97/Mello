@@ -70,7 +70,7 @@ export default class NotesContainer extends Component {
     render() {
         const styles = StyleSheet.create({
             textarea: {
-                height: "15vh",
+                minHeight: "15%",
                 display: "fixed",
                 marginTop: "1em",
                 position: "relative",
@@ -81,13 +81,18 @@ export default class NotesContainer extends Component {
                 width: "100%"
             },
             listGroup: {
-                height: "55vh",
+                height: "100%",
                 overflowY: "scroll"
             },
             navbar: {
-                height: "5vh",
+                height: "5%",
                 margin: 0,
                 borderRadius: 0
+            },
+            noteContainer: {
+                minHeight: "80%",
+                maxHeight: "80%",
+                overflowY: "auto"
             }
         });
 
@@ -101,15 +106,17 @@ export default class NotesContainer extends Component {
         }
 
         return (
-            <div styles={{height: "100%"}}>
+            <div style={{height: "100%"}}>
                 <Navbar color="primary" className={css(styles.navbar)}>
-                <NavbarBrand className="mr-auto" style={{color:"white"}}>Note</NavbarBrand>
+                <NavbarBrand className="mr-auto" style={{color:"white"}}>Notes</NavbarBrand>
                 </Navbar>
-                <ListGroup className={css(styles.listGroup)}>
-                    {noteItems}
-                </ListGroup>
+                <div className={css(styles.noteContainer)}>
+                    <ListGroup className={css(styles.listGroup)}>
+                        {noteItems}
+                    </ListGroup>
+                </div>
                 <Container className={css(styles.textarea)}>
-                <label className="visuallyhidden">Enter a Message</label>
+                    <label className="visuallyhidden">New Note:</label>
                     <Input
                         placeholder="Enter a message..."
                         type="textarea"
